@@ -1,5 +1,10 @@
 # Lucid Dreamer
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org)
+[![pnpm](https://img.shields.io/badge/pnpm-%3E%3D8.0.0-orange)](https://pnpm.io)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)](https://typescriptlang.org)
+
 Cognitive intelligence system for advanced abstraction, pattern recognition, and insight generation.
 
 ## Overview
