@@ -1,0 +1,63 @@
+{
+  "name": "@superinstance/lucid-dreamer",
+  "version": "1.0.0",
+  "description": "Cognitive intelligence system for abstraction and insight generation",
+  "private": true,
+  "license": "MIT",
+  "author": "SuperInstance",
+  "homepage": "https://github.com/SuperInstance/LucidDreamer#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SuperInstance/LucidDreamer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SuperInstance/LucidDreamer/issues"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsup",
+    "start": "node dist/index.js",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "lint": "eslint src/",
+    "type-check": "tsc --noEmit",
+    "migrate": "node dist/migrate.js"
+  },
+  "dependencies": {
+    "@superinstance/knowledge-tensor": "workspace:*",
+    "express": "^4.21.2",
+    "ws": "^8.18.0",
+    "pg": "^8.13.1",
+    "ioredis": "^5.4.1",
+    "pino": "^9.6.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.0.0",
+    "@types/ws": "^8.5.13",
+    "@types/pg": "^8.11.10",
+    "tsx": "^4.19.2",
+    "tsup": "^8.4.0",
+    "typescript": "^5",
+    "vitest": "^3.0.5",
+    "@vitest/coverage-v8": "^3.0.5",
+    "eslint": "^9"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "keywords": [
+    "superinstance",
+    "ai",
+    "cognitive",
+    "abstraction",
+    "insights",
+    "patterns",
+    "dream",
+    "intelligence"
+  ]
+}
