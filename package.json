@@ -1,17 +1,17 @@
 {
-  "name": "@superinstance/lucid-dreamer",
+  "name": "@superinstance/cognitive-engine",
   "version": "1.0.0",
   "description": "Cognitive intelligence system for abstraction and insight generation",
   "private": true,
   "license": "MIT",
   "author": "SuperInstance",
-  "homepage": "https://github.com/SuperInstance/LucidDreamer#readme",
+  "homepage": "https://github.com/SuperInstance/CognitiveEngine#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/SuperInstance/LucidDreamer.git"
+    "url": "https://github.com/SuperInstance/CognitiveEngine.git"
   },
   "bugs": {
-    "url": "https://github.com/SuperInstance/LucidDreamer/issues"
+    "url": "https://github.com/SuperInstance/CognitiveEngine/issues"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -57,7 +57,7 @@
     "abstraction",
     "insights",
     "patterns",
-    "dream",
-    "intelligence"
+    "intelligence",
+    "engine"
   ]
 }

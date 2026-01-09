@@ -1,4 +1,4 @@
-# Lucid Dreamer
+# Cognitive Engine
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org)
@@ -9,7 +9,7 @@ Cognitive intelligence system for advanced abstraction, pattern recognition, and
 
 ## Overview
 
-Lucid Dreamer is a backend AI system that processes information through multiple abstraction layers to discover patterns, generate insights, and create novel connections. It's the "cognitive engine" of the SuperInstance ecosystem.
+Cognitive Engine is a backend AI system that processes information through multiple abstraction layers to discover patterns, generate insights, and create novel connections. It's the "cognitive engine" of the SuperInstance ecosystem.
 
 ### Key Features
 
@@ -26,7 +26,7 @@ Lucid Dreamer is a backend AI system that processes information through multiple
 
 ```
                     ┌─────────────────────────┐
-                    │     Lucid Dreamer       │
+                    │     Cognitive Engine    │
                     │      Cognitive Core     │
                     └───────────┬─────────────┘
                                 │
@@ -58,8 +58,8 @@ Lucid Dreamer is a backend AI system that processes information through multiple
 
 ```bash
 # Clone the repository
-git clone https://github.com/SuperInstance/LucidDreamer.git
-cd LucidDreamer
+git clone https://github.com/SuperInstance/CognitiveEngine.git
+cd CognitiveEngine
 
 # Install dependencies
 pnpm install
@@ -82,7 +82,7 @@ pnpm start
 pnpm build
 
 # Start with PM2
-npx pm2 start dist/index.js --name lucid-dreamer
+npx pm2 start dist/index.js --name cognitive-engine
 ```
 
 ## Usage
@@ -90,14 +90,14 @@ npx pm2 start dist/index.js --name lucid-dreamer
 ### Basic Abstraction
 
 ```typescript
-import { LucidDreamer } from '@superinstance/lucid-dreamer';
+import { CognitiveEngine } from '@superinstance/cognitive-engine';
 
-const dreamer = new LucidDreamer({
+const engine = new CognitiveEngine({
   connectionString: process.env.DATABASE_URL
 });
 
 // Process data through abstraction levels
-const insights = await dreamer.dream({
+const insights = await engine.dream({
   input: 'User engagement metrics showing 30% drop',
   context: { domain: 'product-analytics' }
 });
@@ -114,7 +114,7 @@ console.log(insights);
 
 ```typescript
 // Detect patterns in data
-const patterns = await dreamer.recognizePatterns({
+const patterns = await engine.recognizePatterns({
   data: [
     { timestamp: '2024-01-01', metric: 100 },
     { timestamp: '2024-01-02', metric: 95 },
@@ -128,7 +128,7 @@ const patterns = await dreamer.recognizePatterns({
 
 ```typescript
 // Generative exploration
-const dreams = await dreamer.enterDreamMode({
+const dreams = await engine.enterDreamMode({
   seed: 'sustainable energy solutions',
   explorationDepth: 5,
   noveltyThreshold: 0.7
@@ -140,10 +140,10 @@ const dreams = await dreamer.enterDreamMode({
 ## Project Structure
 
 ```
-lucid-dreamer/
+cognitive-engine/
 ├── src/
 │   ├── core/                   # Core cognitive engine
-│   │   ├── dreamer.ts          # Main LucidDreamer class
+│   │   ├── cognitive-engine.ts # Main CognitiveEngine class
 │   │   ├── abstraction.ts      # Abstraction layer processor
 │   │   └── consciousness.ts    # Consciousness simulation
 │   ├── levels/                 # Abstraction levels
@@ -284,8 +284,8 @@ Contributions welcome! Please see [CONTRIBUTING.md](./CONTRIBUTING.md)
 
 ## Support
 
-- GitHub Issues: https://github.com/SuperInstance/LucidDreamer/issues
-- Documentation: https://docs.superinstance.dev/lucid-dreamer
+- GitHub Issues: https://github.com/SuperInstance/CognitiveEngine/issues
+- Documentation: https://docs.superinstance.dev/cognitive-engine
 
 ---
 

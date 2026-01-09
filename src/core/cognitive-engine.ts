@@ -1,5 +1,5 @@
 /**
- * Lucid Dreamer - Core cognitive engine
+ * Cognitive Engine - Core cognitive engine
  */
 
 import express from 'express';
@@ -16,7 +16,7 @@ const logger = pino({
   } : undefined
 });
 
-export class LucidDreamer {
+export class CognitiveEngine {
   private app: express.Application;
   private server: ReturnType<typeof createServer>;
   private wss: WebSocketServer;
@@ -90,7 +90,7 @@ export class LucidDreamer {
   async start(port: number = 4000) {
     return new Promise<void>((resolve) => {
       this.server.listen(port, () => {
-        logger.info(`Lucid Dreamer listening on port ${port}`);
+        logger.info(`Cognitive Engine listening on port ${port}`);
         resolve();
       });
     });
@@ -100,7 +100,7 @@ export class LucidDreamer {
     return new Promise<void>((resolve) => {
       this.wss.close();
       this.server.close(() => {
-        logger.info('Lucid Dreamer stopped');
+        logger.info('Cognitive Engine stopped');
         resolve();
       });
     });

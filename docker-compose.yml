@@ -8,7 +8,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=luciddreamer
+      - POSTGRES_DB=cognitiveengine
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -30,7 +30,7 @@ services:
       timeout: 3s
       retries: 5
 
-  lucid-dreamer:
+  cognitive-engine:
     build:
       context: .
       dockerfile: docker/Dockerfile
@@ -38,7 +38,7 @@ services:
       - "4000:4000"
     environment:
       - NODE_ENV=production
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/luciddreamer
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/cognitiveengine
       - REDIS_HOST=redis
       - REDIS_PORT=6379
     depends_on:

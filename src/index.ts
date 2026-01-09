@@ -1,10 +1,10 @@
 /**
- * @superinstance/lucid-dreamer
+ * @superinstance/cognitive-engine
  *
  * Cognitive intelligence system for abstraction and insight generation
  */
 
-export { LucidDreamer } from './core/dreamer';
+export { CognitiveEngine } from './core/cognitive-engine';
 export type {
   AbstractionLevel,
   DreamInput,
