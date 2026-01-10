@@ -1,0 +1,278 @@
+# Documentation Template README
+
+This directory contains production-ready documentation templates for all tools in the LucidDreamer ecosystem.
+
+## Purpose
+
+These templates accelerate Phase 2 development by providing standardized, comprehensive documentation structures that can be quickly adapted for any tool.
+
+## Templates
+
+### 1. ARCHITECTURE.md.template
+
+**Purpose**: System design and technical architecture documentation
+
+**Sections**:
+- System overview and purpose
+- High-level architecture diagrams
+- Component breakdown with detailed descriptions
+- Data flow diagrams
+- Technology stack and rationale
+- Scalability and performance considerations
+- Security architecture
+- Deployment architecture
+- Integration points
+- Testing architecture
+- Future considerations
+
+**When to use**: For every tool requiring technical documentation
+
+**How to use**:
+1. Copy template to tool directory: `cp ARCHITECTURE.md.template [tool-dir]/ARCHITECTURE.md`
+2. Replace all `[placeholders]` with tool-specific information
+3. Update diagrams and code examples
+4. Remove unused sections
+
+### 2. docs/templates/USER_GUIDE.md.template
+
+**Purpose**: User-facing documentation for tool consumers
+
+**Sections**:
+- Overview and key features
+- Quick start guide (5-minute setup)
+- Installation instructions (multiple methods)
+- Basic usage with examples
+- Advanced features and configurations
+- Complete API reference
+- Configuration options
+- Troubleshooting guide
+- FAQ
+- Real-world examples
+
+**When to use**: For every tool with external users or consumers
+
+**How to use**:
+1. Copy to tool's docs directory: `cp docs/templates/USER_GUIDE.md.template [tool-dir]/docs/USER_GUIDE.md`
+2. Customize with tool-specific information
+3. Add actual usage examples
+4. Update configuration sections
+
+### 3. docs/templates/DEVELOPER_GUIDE.md.template
+
+**Purpose**: Developer and contributor documentation
+
+**Sections**:
+- Development setup and environment
+- Architecture deep dive
+- Testing strategy and examples
+- Coding standards and style guides
+- Contributing guidelines
+- Release process
+- Troubleshooting development issues
+- Team workflow
+
+**When to use**: For every tool accepting external contributions
+
+**How to use**:
+1. Copy to tool's docs directory: `cp docs/templates/DEVELOPER_GUIDE.md.template [tool-dir]/docs/DEVELOPER_GUIDE.md`
+2. Customize with tool-specific development practices
+3. Update technology stack and tooling
+4. Add project-specific conventions
+
+### 4. examples/templates/simple-example.{ext}.template
+
+**Purpose**: Basic usage examples for different languages
+
+**Available Languages**:
+- `simple-example.ts.template` - TypeScript
+- `simple-example.js.template` - JavaScript
+- `simple-example.py.template` - Python
+
+**Structure**:
+- Prerequisites and setup
+- Step-by-step usage
+- Error handling examples
+- Clean, well-commented code
+- Runnable out of the box
+
+**When to use**: For every tool to provide basic examples
+
+**How to use**:
+1. Copy appropriate language template: `cp examples/templates/simple-example.ts.template [tool-dir]/examples/simple-example.ts`
+2. Replace `[Tool Name]` and placeholders
+3. Update import statements
+4. Customize examples with actual tool functionality
+5. Test to ensure it runs successfully
+
+## Template Customization Guidelines
+
+### Placeholder Convention
+
+All placeholders use `[BRACKETED_CAPITAL_CASE]` format:
+
+- `[Tool Name]` - Name of the tool
+- `[package-name]` - npm/PyPI package name
+- `[method]` - Method/function name
+- `[param]` - Parameter name
+- `[type]` - TypeScript/Python type
+- `[value]` - Example value
+
+### Diagrams
+
+Templates include ASCII diagrams for:
+- Architecture overview
+- Component hierarchy
+- Data flow
+- Deployment structure
+
+**Replace with**:
+- Mermaid diagrams for markdown rendering
+- Draw.io/Excalidraw for complex diagrams
+- PlantUML for UML diagrams
+
+### Code Examples
+
+All code examples are complete and runnable:
+- Include imports/require statements
+- Show initialization
+- Demonstrate core operations
+- Handle errors
+- Include comments
+
+**Customization**:
+1. Replace with actual tool APIs
+2. Use real method names and signatures
+3. Provide realistic examples
+4. Test all examples before committing
+
+### Section Removal
+
+If a section doesn't apply:
+1. Mark it with `<!-- N/A -->` comment
+2. Or remove entirely
+3. Update table of contents
+4. Ensure cross-references are updated
+
+## Quick Start: Using Templates for a New Tool
+
+### Step 1: Copy Templates
+
+```bash
+# Create tool directory
+mkdir -p tools/new-tool
+
+# Copy documentation templates
+cp docs/templates/ARCHITECTURE.md.template tools/new-tool/ARCHITECTURE.md
+cp docs/templates/USER_GUIDE.md.template tools/new-tool/docs/USER_GUIDE.md
+cp docs/templates/DEVELOPER_GUIDE.md.template tools/new-tool/docs/DEVELOPER_GUIDE.md
+
+# Copy example template (choose language)
+cp examples/templates/simple-example.ts.template tools/new-tool/examples/basic-usage.ts
+```
+
+### Step 2: Customize
+
+```bash
+# Find and replace placeholders
+cd tools/new-tool
+# Use your editor's find/replace or use sed/script
+
+# Key replacements:
+# [Tool Name] -> YourToolName
+# [package-name] -> @scope/your-tool-name
+# [core operation] -> what your tool does
+```
+
+### Step 3: Adapt Content
+
+1. **ARCHITECTURE.md**: Describe your tool's design
+2. **USER_GUIDE.md**: Focus on user workflows
+3. **DEVELOPER_GUIDE.md**: Document development practices
+4. **examples**: Create working examples
+
+### Step 4: Review
+
+- [ ] All placeholders replaced
+- [ ] Code examples tested
+- [ ] Diagrams updated
+- [ ] Cross-references work
+- [ ] Tables of contents updated
+
+## Template Maintenance
+
+### Version Control
+
+- Templates live in `/docs/templates/` and `/examples/templates/`
+- Keep templates up to date with best practices
+- Version: 1.0.0
+- Last updated: 2026-01-08
+
+### Updates
+
+When improving templates:
+1. Update template files
+2. Update this README
+3. Document changes in CHANGELOG
+4. Notify team of improvements
+
+### Feedback
+
+Submit template improvements as PRs with:
+- Clear description of improvement
+- Examples of before/after
+- Rationale for changes
+
+## Best Practices
+
+### Documentation Quality
+
+1. **Be Specific**: Don't use vague placeholders like `[some value]`
+2. **Provide Examples**: Every feature should have an example
+3. **Keep Current**: Update docs when code changes
+4. **Be Consistent**: Use same terminology across all docs
+
+### Template Evolution
+
+- Start simple: Get basic docs in place
+- Iterate: Improve over time based on feedback
+- Standardize: Enforce consistency across tools
+- Automate: Add documentation generation where possible
+
+### Review Checklist
+
+Before considering documentation complete:
+
+- [ ] All placeholders replaced or removed
+- [ ] Code examples tested and working
+- [ ] Links resolve correctly
+- [ ] Diagrams render properly
+- [ ] Spelling and grammar checked
+- [ ] Technical accuracy verified
+- [ ] Peer reviewed
+
+## Additional Resources
+
+### Documentation Tools
+
+- **Markdown Linting**: `markdownlint-cli`
+- **Link Checking**: `markdown-link-check`
+- **Diagram Tools**: Mermaid, PlantUML, Draw.io
+- **API Docs**: TypeDoc, JSDoc, Sphinx
+
+### Style Guides
+
+- [Google Developer Documentation Style Guide](https://developers.google.com/tech-writing/overview)
+- [Microsoft Writing Style Guide](https://docs.microsoft.com/en-us/style-guide/)
+- [Write the Docs](https://www.writethedocs.org/)
+
+### Related Documentation
+
+- [TOOL_LIBRARY_MASTER_PLAN.md](../../TOOL_LIBRARY_MASTER_PLAN.md) - Overall project plan
+- [CONTRIBUTING.md](../../CONTRIBUTING.md) - Contribution guidelines
+- [Repository Templates](../../.github/) - Issue and PR templates
+
+---
+
+**Template Version**: 1.0.0
+**Maintained By**: Documentation Team
+**Last Updated**: 2026-01-08

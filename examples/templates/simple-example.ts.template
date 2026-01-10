@@ -1,0 +1,85 @@
+/**
+ * Simple Example - [Tool Name]
+ *
+ * This example demonstrates the basic usage of [Tool Name]
+ * to perform [core operation].
+ *
+ * Prerequisites:
+ * - [Tool Name] installed: npm install [package-name]
+ * - [Prerequisite 2 if applicable]
+ * - [Prerequisite 3 if applicable]
+ *
+ * Usage:
+ *   npm install
+ *   ts-node simple-example.[ext]
+ *   # or
+ *   node dist/simple-example.js
+ */
+
+import { [ToolName] } from '[package-name]';
+
+// Configuration
+const CONFIG = {
+  [option1]: '[value1]',
+  [option2]: [value2],
+  debug: true
+};
+
+/**
+ * Main execution function
+ */
+async function main() {
+  console.log('=== [Tool Name] Simple Example ===\n');
+
+  try {
+    // Step 1: Initialize the tool
+    console.log('Step 1: Initializing...');
+    const [instance] = new [ToolName](CONFIG);
+    console.log('✓ Initialized successfully\n');
+
+    // Step 2: Perform basic operation
+    console.log('Step 2: Performing [operation]...');
+    const result1 = await [instance].[method1]({
+      [param1]: '[value1]',
+      [param2]: [value2]
+    });
+
+    console.log('Result:', JSON.stringify(result1, null, 2));
+    console.log('✓ Operation completed\n');
+
+    // Step 3: Perform advanced operation
+    console.log('Step 3: Performing [advanced operation]...');
+    const result2 = await [instance].[method2]({
+      [param1]: '[value1]',
+      [options]: {
+        [option1]: [value1],
+        [option2]: [value2]
+      }
+    });
+
+    console.log('Result:', JSON.stringify(result2, null, 2));
+    console.log('✓ Advanced operation completed\n');
+
+    // Step 4: Handle errors gracefully
+    console.log('Step 4: Error handling demonstration...');
+    try {
+      await [instance].[method]({ [param]: '[invalid-value]' });
+    } catch (error) {
+      console.log('✓ Caught expected error:', error.message);
+    }
+
+    console.log('\n=== Example completed successfully ===');
+
+  } catch (error) {
+    console.error('Error during execution:', error);
+    process.exit(1);
+  }
+}
+
+// Execute if running directly
+if (require.main === module) {
+  main();
+}
+
+// Export for testing
+export { main };

@@ -1,0 +1,571 @@
+# Architecture Documentation
+
+> **Template Instructions**: This is a reusable template for documenting tool architecture. Replace all placeholder text (marked with `[ ]`) with your specific tool details.
+
+## System Overview
+
+[Brief 2-3 paragraph description of what this tool does, its primary purpose, and where it fits in the ecosystem]
+
+### Purpose Statement
+
+[Clear, concise statement of the tool's purpose and value proposition]
+
+### Scope
+
+[What this tool does and doesn't do. Boundaries and responsibilities.]
+
+### Key Responsibilities
+
+- [Primary responsibility 1]
+- [Primary responsibility 2]
+- [Primary responsibility 3]
+
+---
+
+## System Architecture
+
+### High-Level Architecture Diagram
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                         [Tool Name]                             │
+│                         System Boundary                         │
+└─────────────────────────────────────────────────────────────────┘
+                                │
+        ┌───────────────────────┼───────────────────────┐
+        │                       │                       │
+┌───────▼────────┐    ┌────────▼────────┐    ┌────────▼────────┐
+│  Component A   │    │   Component B   │    │   Component C   │
+│  [Description] │    │   [Description] │    │   [Description] │
+└────────────────┘    └─────────────────┘    └─────────────────┘
+        │                       │                       │
+        └───────────────────────┼───────────────────────┘
+                                │
+                    ┌───────────▼───────────┐
+                    │   External Systems    │
+                    │  [Databases, APIs,    │
+                    │   Message Queues]     │
+                    └───────────────────────┘
+```
+
+### Component Hierarchy
+
+```
+[Tool Name]/
+├── Core Layer
+│   ├── [Core Component 1] - [Purpose]
+│   ├── [Core Component 2] - [Purpose]
+│   └── [Core Component 3] - [Purpose]
+├── Business Logic Layer
+│   ├── [Service 1] - [Purpose]
+│   ├── [Service 2] - [Purpose]
+│   └── [Service 3] - [Purpose]
+├── Data Layer
+│   ├── [Repository/Store 1] - [Purpose]
+│   ├── [Repository/Store 2] - [Purpose]
+│   └── [Cache/Session] - [Purpose]
+└── Interface Layer
+    ├── [API/CLI] - [Purpose]
+    ├── [Events/Streams] - [Purpose]
+    └── [Integrations] - [Purpose]
+```
+
+---
+
+## Core Components
+
+### Component 1: [Name]
+
+**Purpose**: [What this component does and why it exists]
+
+**Responsibilities**:
+- [Responsibility 1]
+- [Responsibility 2]
+- [Responsibility 3]
+
+**Key Features**:
+- [Feature 1]
+- [Feature 2]
+
+**Technical Details**:
+```typescript
+// Interface/Class signature
+interface [ComponentName] {
+  [method1]([params]): [returnType];
+  [method2]([params]): [returnType];
+}
+```
+
+**Dependencies**:
+- [Internal dependency 1]
+- [External dependency 2]
+
+### Component 2: [Name]
+
+**Purpose**: [What this component does and why it exists]
+
+**Responsibilities**:
+- [Responsibility 1]
+- [Responsibility 2]
+- [Responsibility 3]
+
+**Key Features**:
+- [Feature 1]
+- [Feature 2]
+
+**Technical Details**:
+```typescript
+// Interface/Class signature
+interface [ComponentName] {
+  [method1]([params]): [returnType];
+  [method2]([params]): [returnType];
+}
+```
+
+**Dependencies**:
+- [Internal dependency 1]
+- [External dependency 2]
+
+### Component 3: [Name]
+
+**Purpose**: [What this component does and why it exists]
+
+**Responsibilities**:
+- [Responsibility 1]
+- [Responsibility 2]
+- [Responsibility 3]
+
+**Key Features**:
+- [Feature 1]
+- [Feature 2]
+
+**Technical Details**:
+```typescript
+// Interface/Class signature
+interface [ComponentName] {
+  [method1]([params]): [returnType];
+  [method2]([params]): [returnType];
+}
+```
+
+**Dependencies**:
+- [Internal dependency 1]
+- [External dependency 2]
+
+---
+
+## Data Flow
+
+### Request Flow
+
+```
+User Request
+      │
+      ▼
+┌─────────────┐
+│  Interface  │ (API/CLI/WebSocket)
+│   Layer     │
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│ Validation  │ (Input validation, auth)
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│   Business  │ (Core logic, processing)
+│    Logic    │
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│    Data     │ (Persistence, caching)
+│   Layer     │
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│   Response  │ (Format, return)
+└─────────────┘
+```
+
+### Event Flow (if applicable)
+
+```
+[Event Source]
+      │
+      ▼
+┌─────────────┐
+│   Event     │ (Receive, validate)
+│  Ingestion  │
+└──────┬──────┘
+       │
+       ▼
+┌─────────────┐
+│   Event     │ (Route to handlers)
+│  Router     │
+└──────┬──────┘
+       │
+       ├─────────────────┐
+       │                 │
+       ▼                 ▼
+┌─────────────┐   ┌─────────────┐
+│  Handler 1  │   │  Handler 2  │
+└──────┬──────┘   └──────┬──────┘
+       │                 │
+       └────────┬────────┘
+                │
+                ▼
+       ┌─────────────┐
+       │   Event     │ (Side effects)
+       │  Processing │
+       └─────────────┘
+```
+
+### Data Transformations
+
+**Input Format**:
+```json
+[Example input structure]
+```
+
+**Intermediate Format**:
+```json
+[Example intermediate structure]
+```
+
+**Output Format**:
+```json
+[Example output structure]
+```
+
+---
+
+## Technology Stack
+
+### Core Technologies
+
+| Technology | Version | Purpose | Justification |
+|------------|---------|---------|---------------|
+| [Tech 1] | [Version] | [Purpose] | [Why we chose it] |
+| [Tech 2] | [Version] | [Purpose] | [Why we chose it] |
+| [Tech 3] | [Version] | [Purpose] | [Why we chose it] |
+
+### Dependencies
+
+**Production Dependencies**:
+```json
+{
+  "[package-name]": "[version and rationale]",
+  "[package-name]": "[version and rationale]"
+}
+```
+
+**Development Dependencies**:
+```json
+{
+  "[package-name]": "[version and rationale]",
+  "[package-name]": "[version and rationale]"
+}
+```
+
+### External Services
+
+| Service | Purpose | SLA | Fallback |
+|---------|---------|-----|----------|
+| [Service 1] | [Purpose] | [SLA] | [Fallback strategy] |
+| [Service 2] | [Purpose] | [SLA] | [Fallback strategy] |
+
+---
+
+## Scalability Design
+
+### Horizontal Scaling
+
+**Strategy**: [How the system scales horizontally]
+
+**Implementation**:
+- [Mechanism 1]
+- [Mechanism 2]
+
+**Limitations**:
+- [Limitation 1]
+- [Limitation 2]
+
+**Scaling Triggers**:
+- [Trigger 1]: [Threshold]
+- [Trigger 2]: [Threshold]
+
+### Vertical Scaling
+
+**Resource Requirements**:
+- **Minimum**: [CPU, RAM, Disk]
+- **Recommended**: [CPU, RAM, Disk]
+- **High Performance**: [CPU, RAM, Disk]
+
+**Bottlenecks**:
+- [Potential bottleneck 1]
+- [Potential bottleneck 2]
+
+### Performance Optimization
+
+**Caching Strategy**:
+```typescript
+// Example caching implementation
+[Cache implementation details]
+```
+
+**Database Optimization**:
+- [Indexing strategy]
+- [Query optimization]
+- [Connection pooling]
+
+**Async Processing**:
+```typescript
+// Example async processing
+[Async implementation details]
+```
+
+---
+
+## Security Architecture
+
+### Authentication & Authorization
+
+**Authentication Method**: [JWT, OAuth, API Keys, etc.]
+
+**Authorization Model**: [RBAC, ABAC, etc.]
+
+```typescript
+// Example auth implementation
+[Auth implementation details]
+```
+
+### Data Protection
+
+**Encryption at Rest**:
+- [What data is encrypted]
+- [Encryption method]
+
+**Encryption in Transit**:
+- [TLS/SSL configuration]
+- [Certificate management]
+
+**Data Sanitization**:
+- [Input sanitization strategy]
+- [Output encoding strategy]
+
+### Security Controls
+
+| Control | Implementation | Purpose |
+|---------|----------------|---------|
+| [Control 1] | [How it's implemented] | [What it protects] |
+| [Control 2] | [How it's implemented] | [What it protects] |
+
+---
+
+## Reliability & Fault Tolerance
+
+### Error Handling
+
+**Error Categories**:
+- [Category 1]: [Handling strategy]
+- [Category 2]: [Handling strategy]
+- [Category 3]: [Handling strategy]
+
+**Retry Logic**:
+```typescript
+// Example retry implementation
+[Retry implementation details]
+```
+
+### Circuit Breaker Pattern
+
+```typescript
+// Example circuit breaker
+[Circuit breaker implementation]
+```
+
+### Health Checks
+
+**Endpoints**:
+- `/health` - Basic health check
+- `/health/ready` - Readiness probe
+- `/health/live` - Liveness probe
+
+**Checks Performed**:
+- [Check 1]
+- [Check 2]
+- [Check 3]
+
+### Monitoring & Alerting
+
+**Metrics Collected**:
+- [Metric 1]: [Description]
+- [Metric 2]: [Description]
+
+**Alert Conditions**:
+- [Alert 1]: [Threshold]
+- [Alert 2]: [Threshold]
+
+---
+
+## Deployment Architecture
+
+### Development Environment
+
+```
+[Diagram of dev environment setup]
+```
+
+**Configuration**:
+- [Dev-specific config]
+- [Local dependencies]
+
+### Staging Environment
+
+```
+[Diagram of staging environment setup]
+```
+
+**Configuration**:
+- [Staging-specific config]
+- [Pre-production testing]
+
+### Production Environment
+
+```
+[Diagram of production environment setup]
+```
+
+**Configuration**:
+- [Production-specific config]
+- [High availability setup]
+
+### Infrastructure as Code
+
+```yaml
+# Example IaC configuration (Terraform/CloudFormation/Helm)
+[IaC snippets or references]
+```
+
+---
+
+## Integration Points
+
+### Upstream Dependencies
+
+| System | Integration Type | Data Flow | SLA |
+|--------|-----------------|-----------|-----|
+| [System 1] | [API/Event/Shared DB] | [Real-time/Batch] | [SLA] |
+| [System 2] | [API/Event/Shared DB] | [Real-time/Batch] | [SLA] |
+
+### Downstream Consumers
+
+| System | Integration Type | Data Flow | SLA |
+|--------|-----------------|-----------|-----|
+| [System 1] | [API/Event/Shared DB] | [Real-time/Batch] | [SLA] |
+| [System 2] | [API/Event/Shared DB] | [Real-time/Batch] | [SLA] |
+
+### APIs Provided
+
+**REST API**:
+- `POST /api/v1/[endpoint]` - [Description]
+- `GET /api/v1/[endpoint]` - [Description]
+- `PUT /api/v1/[endpoint]` - [Description]
+
+**WebSocket API**:
+- [Channel 1]: [Description]
+- [Channel 2]: [Description]
+
+**Events Published**:
+- [Event 1]: [Description]
+- [Event 2]: [Description]
+
+---
+
+## Testing Architecture
+
+### Unit Testing
+
+**Coverage Target**: [Percentage]%
+
+**Key Test Areas**:
+- [Component 1 tests]
+- [Component 2 tests]
+
+**Example**:
+```typescript
+[Example unit test]
+```
+
+### Integration Testing
+
+**Test Scenarios**:
+- [Scenario 1]
+- [Scenario 2]
+
+**Test Data Management**:
+- [Strategy for test data]
+
+### End-to-End Testing
+
+**Critical Paths**:
+1. [Path 1 description]
+2. [Path 2 description]
+
+**Test Environment**:
+- [E2E test environment setup]
+
+### Performance Testing
+
+**Load Testing Strategy**:
+- [Tools used]
+- [Test scenarios]
+- [Performance targets]
+
+**Stress Testing**:
+- [Breaking point testing]
+- [Recovery testing]
+
+---
+
+## Future Considerations
+
+### Planned Enhancements
+
+- [Enhancement 1]: [Description]
+- [Enhancement 2]: [Description]
+- [Enhancement 3]: [Description]
+
+### Technical Debt
+
+| Item | Impact | Proposed Solution |
+|------|--------|-------------------|
+| [Debt 1] | [High/Med/Low] | [Solution] |
+| [Debt 2] | [High/Med/Low] | [Solution] |
+
+### Migration Path
+
+**Upcoming Changes**:
+- [Change 1]: [Impact]
+- [Change 2]: [Impact]
+
+**Migration Strategy**:
+- [Strategy for major version changes]
+
+---
+
+## References
+
+- [Related documentation 1]
+- [Related documentation 2]
+- [External references]
+
+---
+
+**Document Version**: [Version number]
+**Last Updated**: [Date]
+**Maintainer**: [Team/Individual]
+**Review Cycle**: [Frequency]

@@ -1,0 +1,1030 @@
+# Developer Guide
+
+> **Template Instructions**: This is a reusable template for developer-facing documentation. Replace all placeholder text (marked with `[ ]`) with your specific tool details.
+
+---
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Development Setup](#development-setup)
+- [Architecture Deep Dive](#architecture-deep-dive)
+- [Testing Strategy](#testing-strategy)
+- [Coding Standards](#coding-standards)
+- [Contributing Guidelines](#contributing-guidelines)
+- [Release Process](#release-process)
+- [Troubleshooting](#troubleshooting)
+
+---
+
+## Overview
+
+### Project Structure
+
+```
+[tool-name]/
+├── src/
+│   ├── core/                   # Core functionality
+│   │   ├── [core-file-1].ts
+│   │   ├── [core-file-2].ts
+│   │   └── index.ts
+│   ├── services/               # Business logic
+│   │   ├── [service-1].ts
+│   │   └── [service-2].ts
+│   ├── utils/                  # Utilities and helpers
+│   │   ├── [util-1].ts
+│   │   └── [util-2].ts
+│   ├── types/                  # TypeScript definitions
+│   │   ├── [types].ts
+│   │   └── index.ts
+│   └── index.ts                # Main entry point
+├── tests/
+│   ├── unit/                   # Unit tests
+│   ├── integration/            # Integration tests
+│   └── e2e/                    # End-to-end tests
+├── docs/                       # Documentation
+├── examples/                   # Usage examples
+├── scripts/                    # Build and dev scripts
+├── .github/                    # GitHub workflows and templates
+├── package.json
+├── tsconfig.json
+└── README.md
+```
+
+### Technology Stack
+
+- **Runtime**: [Node.js version]
+- **Language**: [TypeScript version]
+- **Build Tool**: [Tool name and version]
+- **Package Manager**: [npm/yarn/pnpm and version]
+- **Testing Framework**: [Framework and version]
+- **Linting**: [Tool and version]
+- **Documentation**: [Tool and version]
+
+### Development Philosophy
+
+**[Principle 1]**: [Description and how we apply it]
+
+**[Principle 2]**: [Description and how we apply it]
+
+**[Principle 3]**: [Description and how we apply it]
+
+---
+
+## Development Setup
+
+### Prerequisites
+
+Before setting up the development environment, ensure you have:
+
+- **[Tool 1]**: [Version] - [Purpose]
+- **[Tool 2]**: [Version] - [Purpose]
+- **[Tool 3]**: [Version] - [Purpose]
+
+### Initial Setup
+
+**Step 1: Clone the Repository**
+
+```bash
+git clone https://github.com/[org]/[repo].git
+cd [repo]
+```
+
+**Step 2: Install Dependencies**
+
+```bash
+# Using npm
+npm install
+
+# Using yarn
+yarn install
+
+# Using pnpm
+pnpm install
+```
+
+**Step 3: Setup Environment**
+
+```bash
+# Copy environment template
+cp .env.example .env
+
+# Edit with your configuration
+nano .env
+```
+
+**Step 4: Initialize Development Tools**
+
+```bash
+# Setup git hooks
+npm run setup:hooks
+
+# Setup pre-commit
+npm run setup:precommit
+```
+
+**Step 5: Verify Installation**
+
+```bash
+# Run tests
+npm test
+
+# Run linter
+npm run lint
+
+# Build project
+npm run build
+```
+
+### Development Tools
+
+**Recommended VS Code Extensions**:
+
+- [Extension 1] - [Purpose]
+- [Extension 2] - [Purpose]
+- [Extension 3] - [Purpose]
+
+**IDE Configuration**:
+
+```json
+// .vscode/settings.json
+{
+  "[typescript]": {
+    "editor.defaultFormatter": "[formatter-name]",
+    "editor.formatOnSave": true
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}
+```
+
+### Local Development
+
+**Start Development Server**:
+
+```bash
+# Watch mode
+npm run dev
+
+# With specific configuration
+npm run dev:staging
+```
+
+**Run Tests in Watch Mode**:
+
+```bash
+npm run test:watch
+```
+
+**Debug Mode**:
+
+```bash
+# Run with debug logs
+npm run dev:debug
+
+# Run inspector
+npm run dev:inspect
+```
+
+---
+
+## Architecture Deep Dive
+
+### Core Components
+
+#### Component 1: [Name]
+
+**Purpose**: [What this component does]
+
+**File Structure**:
+```
+src/core/[component]/
+├── [component].ts        # Main implementation
+├── [component].types.ts  # Type definitions
+├── [component].test.ts   # Tests
+└── index.ts              # Exports
+```
+
+**Key Classes/Functions**:
+
+```typescript
+// [component].ts
+export class [ComponentName] {
+  constructor(options: [ComponentOptions]) {
+    // Initialization logic
+  }
+
+  async [method](params: [ParamsType]): Promise<[ReturnType]> {
+    // Implementation
+  }
+
+  private [helperMethod](data: [DataType]): [ResultType] {
+    // Helper logic
+  }
+}
+```
+
+**Dependencies**:
+- [Internal dependency]
+- [External dependency]
+
+#### Component 2: [Name]
+
+**Purpose**: [What this component does]
+
+**Key Classes/Functions**:
+
+```typescript
+// Implementation details
+[Code example]
+```
+
+### Data Flow
+
+**Request Processing Flow**:
+
+```
+[Diagram or detailed description of data flow]
+```
+
+**Example Trace**:
+
+```typescript
+// Step 1: Input received
+const input = { [key]: [value] };
+
+// Step 2: Validation
+const validated = await validator.validate(input);
+
+// Step 3: Processing
+const processed = await processor.process(validated);
+
+// Step 4: Output
+return output;
+```
+
+### State Management
+
+**State Architecture**:
+
+```typescript
+interface [StateType] {
+  [field1]: [type];
+  [field2]: [type];
+  [field3]: [type];
+}
+
+class StateManager {
+  private state: [StateType];
+
+  getState(): [StateType] {
+    return this.state;
+  }
+
+  setState(updates: Partial<[StateType]>): void {
+    this.state = { ...this.state, ...updates };
+  }
+}
+```
+
+**State Flow**:
+- [State change 1]
+- [State change 2]
+- [State persistence strategy]
+
+### Error Handling
+
+**Error Hierarchy**:
+
+```typescript
+// Base error class
+export class [ToolName]Error extends Error {
+  constructor(message: string, public code: string) {
+    super(message);
+    this.name = '[ToolName]Error';
+  }
+}
+
+// Specific error types
+export class [SpecificError] extends [ToolName]Error {
+  constructor(message: string, public details: any) {
+    super(message, '[ERROR_CODE]');
+    this.name = '[SpecificError]';
+  }
+}
+```
+
+**Error Handling Strategy**:
+
+```typescript
+async function [operation]() {
+  try {
+    return await riskyOperation();
+  } catch (error) {
+    if (error instanceof [KnownError]) {
+      // Handle known error
+      logger.error('Known error occurred', { error });
+      throw new [CustomError]('Operation failed');
+    }
+    // Handle unknown error
+    logger.error('Unexpected error', { error });
+    throw error;
+  }
+}
+```
+
+---
+
+## Testing Strategy
+
+### Testing Philosophy
+
+**Our Testing Principles**:
+1. **[Principle 1]**: [Description]
+2. **[Principle 2]**: [Description]
+3. **[Principle 3]**: [Description]
+
+### Test Structure
+
+```
+tests/
+├── unit/
+│   ├── core/
+│   │   ├── [component].test.ts
+│   │   └── [another-component].test.ts
+│   ├── services/
+│   │   └── [service].test.ts
+│   └── utils/
+│       └── [util].test.ts
+├── integration/
+│   ├── [integration-1].test.ts
+│   └── [integration-2].test.ts
+└── e2e/
+    ├── [scenario-1].test.ts
+    └── [scenario-2].test.ts
+```
+
+### Unit Testing
+
+**Framework**: [Testing framework]
+
+**Example Unit Test**:
+
+```typescript
+import { describe, it, expect, beforeEach } from '[testing-framework]';
+import { [ComponentName] } from '../../src/core/[component]';
+
+describe('[ComponentName]', () => {
+  let component: [ComponentName];
+
+  beforeEach(() => {
+    component = new [ComponentName]({
+      [config]: [value]
+    });
+  });
+
+  describe('[method]', () => {
+    it('should [expected behavior]', async () => {
+      const input = { [key]: [value] };
+      const result = await component.[method](input);
+
+      expect(result).toEqual({
+        [expectedKey]: [expectedValue]
+      });
+    });
+
+    it('should throw [Error] when [condition]', async () => {
+      const input = { [key]: [badValue] };
+
+      await expect(
+        component.[method](input)
+      ).rejects.toThrow([ErrorType]);
+    });
+
+    it('should handle edge case', async () => {
+      const input = { [key]: null };
+
+      const result = await component.[method](input);
+
+      expect(result).toBeNull();
+    });
+  });
+});
+```
+
+**Coverage Targets**:
+- **Statements**: [Percentage]%
+- **Branches**: [Percentage]%
+- **Functions**: [Percentage]%
+- **Lines**: [Percentage]%
+
+### Integration Testing
+
+**Example Integration Test**:
+
+```typescript
+import { describe, it, expect, beforeAll, afterAll } from '[testing-framework]';
+import { [IntegrationSetup] } from '../helpers/integration';
+
+describe('[Feature] Integration', () => {
+  let setup: [IntegrationSetup];
+
+  beforeAll(async () => {
+    setup = new [IntegrationSetup]();
+    await setup.initialize();
+  });
+
+  afterAll(async () => {
+    await setup.cleanup();
+  });
+
+  it('should [integration scenario]', async () => {
+    const result = await setup.client.[method]({
+      [param]: [value]
+    });
+
+    expect(result).toBeDefined();
+    expect(result.[field]).toEqual([expected]);
+  });
+});
+```
+
+### End-to-End Testing
+
+**Example E2E Test**:
+
+```typescript
+import { test, expect } from '[e2e-framework]';
+
+test('[complete user flow]', async ({ page }) => {
+  // Navigate to application
+  await page.goto('[url]');
+
+  // Perform action
+  await page.click('[selector]');
+
+  // Wait for result
+  await expect(page.locator('[selector]')).toBeVisible();
+
+  // Verify outcome
+  const text = await page.textContent('[selector]');
+  expect(text).toContain('[expected text]');
+});
+```
+
+### Test Data Management
+
+**Fixtures**:
+
+```typescript
+// tests/fixtures/data.ts
+export const mockData = {
+  valid: {
+    [field1]: [value1],
+    [field2]: [value2]
+  },
+  invalid: {
+    [field1]: [badValue1],
+    [field2]: [badValue2]
+  },
+  edgeCases: [
+    { [scenario]: [data] },
+    { [scenario]: [data] }
+  ]
+};
+```
+
+### Running Tests
+
+**All Tests**:
+```bash
+npm test
+```
+
+**Unit Tests Only**:
+```bash
+npm run test:unit
+```
+
+**Integration Tests Only**:
+```bash
+npm run test:integration
+```
+
+**E2E Tests Only**:
+```bash
+npm run test:e2e
+```
+
+**Watch Mode**:
+```bash
+npm run test:watch
+```
+
+**With Coverage**:
+```bash
+npm run test:coverage
+```
+
+---
+
+## Coding Standards
+
+### Code Style
+
+**Formatter**: [Formatter name]
+
+**Linting Rules**:
+```json
+{
+  "rules": {
+    "[rule-category]": {
+      "[rule-name]": ["level", "options"]
+    }
+  }
+}
+```
+
+### TypeScript Guidelines
+
+**Type Definitions**:
+
+```typescript
+// Always use explicit types
+interface [InterfaceName] {
+  readonly [field1]: [type];  // Use readonly for immutable fields
+  [field2]: [type] | null;    // Explicitly handle null/undefined
+  [field3]?: [type];          // Optional fields
+}
+
+// Use type guards
+function is[Type](value: unknown): value is [Type] {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    '[field]' in value
+  );
+}
+```
+
+**Generic Types**:
+
+```typescript
+// Prefer generic types for reusable components
+interface Repository<T> {
+  findById(id: string): Promise<T | null>;
+  create(data: Omit<T, 'id'>): Promise<T>;
+  update(id: string, data: Partial<T>): Promise<T>;
+}
+```
+
+### Naming Conventions
+
+**Files**:
+- Use `kebab-case` for file names: `[file-name].ts`
+- Test files: `[file-name].test.ts`
+- Type definition files: `[file-name].types.ts`
+
+**Variables and Functions**:
+- Use `camelCase`: `const myVariable = 'value';`
+- Boolean prefixes: `isValid`, `hasPermission`, `canEdit`
+
+**Classes and Interfaces**:
+- Use `PascalCase`: `class MyClass {}`
+- Interface prefix optional: `interface IUser {}`
+
+**Constants**:
+- Use `SCREAMING_SNAKE_CASE`: `const MAX_RETRIES = 3;`
+- Group related constants: `const API = { ENDPOINT, VERSION };`
+
+**Types**:
+- Use `PascalCase`: `type UserData = {}`
+
+### Code Organization
+
+**Import Order**:
+
+```typescript
+// 1. External dependencies
+import { externalLib } from 'external-lib';
+
+// 2. Internal dependencies
+import { internalModule } from '@scope/internal-module';
+
+// 3. Types
+import type { MyType } from './types';
+
+// 4. Relative imports
+import { helper } from './helper';
+```
+
+**File Structure Template**:
+
+```typescript
+// 1. File header comment
+/**
+ * [Description of file purpose]
+ */
+
+// 2. Imports
+import { ... } from '...';
+
+// 3. Type definitions
+interface LocalTypes {
+  ...
+}
+
+// 4. Constants
+const CONSTANT_VALUE = 'value';
+
+// 5. Main implementation
+export class MainClass {
+  ...
+}
+
+// 6. Exports
+export { helper };
+```
+
+### Documentation Standards
+
+**Function Documentation**:
+
+```typescript
+/**
+ * [Brief description of function purpose]
+ *
+ * @param paramName - [Description of parameter]
+ * @param paramTwo - [Description of parameter]
+ * @returns [Description of return value]
+ *
+ * @throws {[ErrorType]} - [When this error is thrown]
+ *
+ * @example
+ * ```typescript
+ * const result = await functionName({ param: 'value' });
+ * console.log(result); // { expected: 'output' }
+ * ```
+ */
+export async function functionName(
+  paramName: [Type],
+  paramTwo: [Type]
+): Promise<[ReturnType]> {
+  // Implementation
+}
+```
+
+**Complex Logic Documentation**:
+
+```typescript
+// [Explanation of complex logic section]
+// Why: [Rationale for approach]
+// Alternative: [Considered alternatives and why rejected]
+const result = complexOperation();
+```
+
+### Performance Guidelines
+
+**Optimization Techniques**:
+
+```typescript
+// Use appropriate data structures
+// ✅ Good: O(1) lookup
+const map = new Map<string, Data>();
+map.get(key);
+
+// ❌ Bad: O(n) lookup
+const array = [{ id: '1', data }];
+array.find(item => item.id === key);
+
+// Debounce/throttle expensive operations
+const debouncedSearch = debounce(searchFunction, 300);
+
+// Lazy load heavy dependencies
+const heavyModule = await import('./heavy-module');
+```
+
+**Memory Management**:
+
+```typescript
+// Clean up resources
+class ResourceManager {
+  private resources: Resource[] = [];
+
+  async cleanup() {
+    await Promise.all(
+      this.resources.map(r => r.dispose())
+    );
+    this.resources = [];
+  }
+}
+
+// Avoid memory leaks
+class EventHandler {
+  private listeners: Function[] = [];
+
+  // Always provide cleanup method
+  removeAllListeners() {
+    this.listeners = [];
+  }
+}
+```
+
+---
+
+## Contributing Guidelines
+
+### Workflow
+
+**1. Fork and Clone**:
+
+```bash
+git clone https://github.com/[your-username]/[repo].git
+cd [repo]
+npm install
+```
+
+**2. Create Feature Branch**:
+
+```bash
+git checkout -b feature/[feature-name]
+# or
+git checkout -b fix/[bug-description]
+```
+
+**3. Make Changes**:
+
+- Follow coding standards
+- Add tests for new functionality
+- Update documentation
+- Run tests locally
+
+**4. Commit Changes**:
+
+```bash
+git add .
+git commit -m "type(scope): description
+
+- Detailed change 1
+- Detailed change 2
+
+Closes #[issue-number]"
+```
+
+**Commit Message Format**:
+- `feat:` - New feature
+- `fix:` - Bug fix
+- `docs:` - Documentation changes
+- `style:` - Code style changes (formatting)
+- `refactor:` - Code refactoring
+- `test:` - Adding or updating tests
+- `chore:` - Maintenance tasks
+
+**5. Push and Create PR**:
+
+```bash
+git push origin feature/[feature-name]
+# Then create PR on GitHub
+```
+
+### Pull Request Guidelines
+
+**PR Title Format**:
+```
+[type]: [brief description]
+
+[Detailed description]
+
+**Changes**:
+- [Change 1]
+- [Change 2]
+
+**Testing**:
+- [Test 1]
+- [Test 2]
+
+**Breaking Changes**:
+- [None or description]
+
+**Documentation**:
+- [Documentation updates]
+```
+
+**PR Checklist**:
+- [ ] Tests pass locally
+- [ ] New tests added for new features
+- [ ] Documentation updated
+- [ ] Commit messages follow format
+- [ ] No merge conflicts
+- [ ] PR description is clear and complete
+
+### Code Review Process
+
+**Review Criteria**:
+1. **Functionality**: Does it work as intended?
+2. **Code Quality**: Is it readable and maintainable?
+3. **Testing**: Are tests adequate?
+4. **Documentation**: Is documentation updated?
+5. **Performance**: Are there performance concerns?
+
+**Review Response Time**:
+- Expected: [Timeframe]
+- Follow-up: [Process for delayed reviews]
+
+### Issue Reporting
+
+**Bug Report Template**:
+
+```markdown
+**Description**
+[Clear description of the bug]
+
+**Reproduction Steps**
+1. [Step 1]
+2. [Step 2]
+3. [Step 3]
+
+**Expected Behavior**
+[What you expected to happen]
+
+**Actual Behavior**
+[What actually happened]
+
+**Environment**
+- OS: [OS and version]
+- Runtime: [Node version]
+- Package Version: [Version]
+
+**Additional Context**
+[Logs, screenshots, etc.]
+```
+
+**Feature Request Template**:
+
+```markdown
+**Problem Statement**
+[What problem does this solve?]
+
+**Proposed Solution**
+[How should it work?]
+
+**Alternatives Considered**
+[What other approaches did you consider?]
+
+**Additional Context**
+[Examples, mockups, etc.]
+```
+
+---
+
+## Release Process
+
+### Version Management
+
+**Semantic Versioning**: `MAJOR.MINOR.PATCH`
+
+- **MAJOR**: Breaking changes
+- **MINOR**: New features, backwards compatible
+- **PATCH**: Bug fixes, backwards compatible
+
+### Release Checklist
+
+**Pre-Release**:
+- [ ] All tests passing
+- [ ] Documentation updated
+- [ ] CHANGELOG.md updated
+- [ ] Version number updated
+- [ ] Security scan passed
+
+**Release Steps**:
+
+```bash
+# 1. Run tests
+npm test
+
+# 2. Build package
+npm run build
+
+# 3. Update version
+npm version [major|minor|patch]
+
+# 4. Publish
+npm publish
+
+# 5. Push tags
+git push origin main --tags
+```
+
+**Post-Release**:
+- [ ] Create GitHub release
+- [ ] Notify users
+- [ ] Update documentation site
+- [ ] Monitor for issues
+
+### Changelog Format
+
+```markdown
+## [X.Y.Z] - [YYYY-MM-DD]
+
+### Added
+- [New feature 1]
+- [New feature 2]
+
+### Changed
+- [Modified feature 1]
+
+### Deprecated
+- [Feature to be removed]
+
+### Removed
+- [Removed feature]
+
+### Fixed
+- [Bug fix 1]
+- [Bug fix 2]
+
+### Security
+- [Security fix 1]
+```
+
+---
+
+## Troubleshooting
+
+### Development Issues
+
+**Issue: [Problem]**
+
+**Symptoms**:
+- [Symptom 1]
+- [Symptom 2]
+
+**Diagnosis**:
+```bash
+[Diagnostic commands]
+```
+
+**Solution**:
+```bash
+[Fix commands]
+```
+
+### Testing Issues
+
+**Tests Failing After Changes**:
+
+```bash
+# Clear cache
+npm run clean
+
+# Reinstall dependencies
+rm -rf node_modules
+npm install
+
+# Run tests with debug output
+npm run test:debug
+```
+
+### Build Issues
+
+**Build Errors**:
+
+```bash
+# Clean build artifacts
+npm run clean
+
+# Incremental build
+npm run build:dev
+
+# Full build
+npm run build:prod
+```
+
+---
+
+## Additional Resources
+
+### Internal Documentation
+
+- [Architecture Docs](./ARCHITECTURE.md)
+- [User Guide](./USER_GUIDE.md)
+- [API Reference](./API_REFERENCE.md)
+
+### External Resources
+
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/)
+- [Testing Best Practices](https://link)
+- [Clean Code Principles](https://link)
+
+### Team Communication
+
+- Slack: [Channel]
+- Standup: [Time]
+- Sprint Planning: [Schedule]
+
+---
+
+**Document Version**: [Version]
+**Last Updated**: [Date]
+**Maintainer**: [Team/Individual]

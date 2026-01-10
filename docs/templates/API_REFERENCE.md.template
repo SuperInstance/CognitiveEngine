@@ -1,0 +1,662 @@
+# API Reference
+
+> **Template Instructions**: This is a reusable template for API documentation. Replace all placeholder text (marked with `[ ]`) with your specific tool details.
+
+---
+
+## Overview
+
+This reference documents all public APIs, types, and interfaces exposed by [Tool Name].
+
+**Base URL**: `[https://api.example.com/v1]` (for HTTP APIs)
+**Package**: `[package-name]`
+**Version**: `[X.Y.Z]`
+
+---
+
+## Table of Contents
+
+- [REST API](#rest-api)
+- [WebSocket API](#websocket-api)
+- [SDK/Client Library](#sdkclient-library)
+- [Type Definitions](#type-definitions)
+- [Error Codes](#error-codes)
+- [Rate Limiting](#rate-limiting)
+
+---
+
+## REST API
+
+### Authentication
+
+Include authentication in the request headers:
+
+```http
+Authorization: Bearer [token]
+Content-Type: application/json
+```
+
+### Endpoints
+
+#### POST /[endpoint]
+
+Creates a new [resource].
+
+**Request**:
+
+```http
+POST /api/v1/[endpoint] HTTP/1.1
+Content-Type: application/json
+
+{
+  "[field1]": "[value1]",
+  "[field2]": [value2]
+}
+```
+
+**Request Parameters**:
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `field1` | string | Yes | [Description] |
+| `field2` | number | Yes | [Description] |
+| `field3` | boolean | No | [Description] |
+
+**Response**:
+
+```http
+HTTP/1.1 201 Created
+Content-Type: application/json
+
+{
+  "id": "[uuid]",
+  "[field1]": "[value1]",
+  "[field2]": [value2],
+  "createdAt": "2024-01-01T00:00:00Z",
+  "updatedAt": "2024-01-01T00:00:00Z"
+}
+```
+
+**Response Fields**:
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `id` | string | Unique identifier |
+| `field1` | string | [Description] |
+| `field2` | number | [Description] |
+| `createdAt` | string | ISO 8601 timestamp |
+| `updatedAt` | string | ISO 8601 timestamp |
+
+**Example**:
+
+```typescript
+const response = await fetch('/api/v1/[endpoint]', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  },
+  body: JSON.stringify({
+    [field1]: '[value1]',
+    [field2]: [value2]
+  })
+});
+
+const data = await response.json();
+```
+
+#### GET /[endpoint]/:id
+
+Retrieves a [resource] by ID.
+
+**Request**:
+
+```http
+GET /api/v1/[endpoint]/:id HTTP/1.1
+```
+
+**Path Parameters**:
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `id` | string | Yes | Resource identifier |
+
+**Response**:
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "id": "[uuid]",
+  "[field1]": "[value1]",
+  "[field2]": [value2],
+  "createdAt": "2024-01-01T00:00:00Z"
+}
+```
+
+**Errors**:
+
+| Code | Description |
+|------|-------------|
+| 404 | Resource not found |
+
+#### PUT /[endpoint]/:id
+
+Updates a [resource].
+
+**Request**:
+
+```http
+PUT /api/v1/[endpoint]/:id HTTP/1.1
+Content-Type: application/json
+
+{
+  "[field1]": "[newValue1]"
+}
+```
+
+**Response**:
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "id": "[uuid]",
+  "[field1]": "[newValue1]",
+  "[field2]": [value2],
+  "updatedAt": "2024-01-01T00:00:00Z"
+}
+```
+
+#### DELETE /[endpoint]/:id
+
+Deletes a [resource].
+
+**Request**:
+
+```http
+DELETE /api/v1/[endpoint]/:id HTTP/1.1
+```
+
+**Response**:
+
+```http
+HTTP/1.1 204 No Content
+```
+
+#### GET /[endpoint]
+
+Lists [resources] with pagination.
+
+**Request**:
+
+```http
+GET /api/v1/[endpoint]?page=1&limit=10&sort=createdAt HTTP/1.1
+```
+
+**Query Parameters**:
+
+| Parameter | Type | Required | Default | Description |
+|-----------|------|----------|---------|-------------|
+| `page` | number | No | 1 | Page number |
+| `limit` | number | No | 10 | Items per page |
+| `sort` | string | No | createdAt | Sort field |
+| `order` | string | No | desc | Sort order (asc/desc) |
+| `filter[field]` | mixed | No | - | Filter by field |
+
+**Response**:
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "data": [
+    {
+      "id": "[uuid1]",
+      "[field1]": "[value1]"
+    },
+    {
+      "id": "[uuid2]",
+      "[field1]": "[value2]"
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 10,
+    "total": 100,
+    "totalPages": 10
+  }
+}
+```
+
+---
+
+## WebSocket API
+
+### Connection
+
+Connect to the WebSocket server:
+
+```javascript
+const ws = new WebSocket('wss://api.example.com/ws');
+
+// Authenticate after connection
+ws.send(JSON.stringify({
+  type: 'auth',
+  token: '[your-token]'
+}));
+```
+
+### Events
+
+#### client → server
+
+**Subscribe to Channel**
+
+```json
+{
+  "type": "subscribe",
+  "channel": "[channel-name]"
+}
+```
+
+**Unsubscribe from Channel**
+
+```json
+{
+  "type": "unsubscribe",
+  "channel": "[channel-name]"
+}
+```
+
+**Send Message**
+
+```json
+{
+  "type": "[message-type]",
+  "data": {
+    "[field1]": "[value1]"
+  }
+}
+```
+
+#### server → client
+
+**Message Received**
+
+```json
+{
+  "type": "[message-type]",
+  "data": {
+    "[field1]": "[value1]"
+  },
+  "timestamp": "2024-01-01T00:00:00Z"
+}
+```
+
+**Error**
+
+```json
+{
+  "type": "error",
+  "error": {
+    "code": "[ERROR_CODE]",
+    "message": "[Error message]"
+  }
+}
+```
+
+### Example
+
+```javascript
+const ws = new WebSocket('wss://api.example.com/ws');
+
+ws.onopen = () => {
+  // Authenticate
+  ws.send(JSON.stringify({
+    type: 'auth',
+    token: '[your-token]'
+  }));
+
+  // Subscribe to updates
+  ws.send(JSON.stringify({
+    type: 'subscribe',
+    channel: '[updates]'
+  }));
+};
+
+ws.onmessage = (event) => {
+  const message = JSON.parse(event.data);
+
+  switch (message.type) {
+    case '[message-type]':
+      console.log('Received:', message.data);
+      break;
+    case 'error':
+      console.error('Error:', message.error);
+      break;
+  }
+};
+
+ws.onerror = (error) => {
+  console.error('WebSocket error:', error);
+};
+
+ws.onclose = () => {
+  console.log('Connection closed');
+};
+```
+
+---
+
+## SDK/Client Library
+
+### Installation
+
+```bash
+npm install [package-name]
+```
+
+### Initialization
+
+```typescript
+import { [ToolName] } from '[package-name]';
+
+const client = new [ToolName]({
+  apiKey: '[your-api-key]',
+  baseURL: 'https://api.example.com/v1',
+  timeout: 30000
+});
+```
+
+### Methods
+
+#### method1()
+
+Performs [operation].
+
+```typescript
+async method1(params: {
+  [param1]: string;
+  [param2]: number;
+  [options]?: {
+    [option1]?: boolean;
+  };
+}): Promise<[ReturnType]>
+```
+
+**Parameters**:
+- `param1` (string): [Description]
+- `param2` (number): [Description]
+- `options` (object, optional):
+  - `option1` (boolean): [Description]
+
+**Returns**: Promise<[ReturnType]>
+
+**Throws**:
+- `[ErrorType]`: [When this error occurs]
+
+**Example**:
+
+```typescript
+const result = await client.method1({
+  [param1]: '[value1]',
+  [param2]: [value2],
+  [options]: {
+    [option1]: true
+  }
+});
+
+console.log(result);
+```
+
+#### method2()
+
+Performs [operation].
+
+```typescript
+async method2(id: string): Promise<[ReturnType]>
+```
+
+**Parameters**:
+- `id` (string): [Description]
+
+**Returns**: Promise<[ReturnType]>
+
+**Example**:
+
+```typescript
+const result = await client.method2('[id]');
+```
+
+### Streaming
+
+```typescript
+// Create stream
+const stream = await client.createStream({
+  [param]: [value]
+});
+
+// Handle stream events
+stream.on('data', (data) => {
+  console.log('Received:', data);
+});
+
+stream.on('error', (error) => {
+  console.error('Stream error:', error);
+});
+
+stream.on('end', () => {
+  console.log('Stream ended');
+});
+
+// Close stream
+await stream.close();
+```
+
+---
+
+## Type Definitions
+
+### TypeScript
+
+```typescript
+/**
+ * [Type description]
+ */
+interface [TypeName] {
+  /**
+   * [Field description]
+   */
+  [field1]: string;
+
+  /**
+   * [Field description]
+   */
+  [field2]: number;
+
+  /**
+   * [Field description]
+   */
+  [field3]?: boolean;
+}
+
+/**
+ * [Enum description]
+ */
+enum [EnumName] {
+  [Value1] = '[value1]',
+  [Value2] = '[value2]',
+  [Value3] = '[value3]'
+}
+
+/**
+ * [Union type description]
+ */
+type [UnionType] = [Type1] | [Type2] | [Type3];
+
+/**
+ * [Generic type description]
+ */
+interface [GenericTypeName]<T> {
+  data: T;
+  metadata: {
+    timestamp: string;
+    version: string;
+  };
+}
+```
+
+### Python Type Hints
+
+```python
+from typing import Optional, List, Dict, Union
+from dataclasses import dataclass
+from enum import Enum
+
+
+class [EnumName](Enum):
+    """[Enum description]"""
+    [VALUE_1] = "[value1]"
+    [VALUE_2] = "[value2]"
+    [VALUE_3] = "[value3]"
+
+
+@dataclass
+class [TypeName]:
+    """[Type description]"""
+    [field1]: str
+    [field2]: int
+    [field3]: Optional[bool] = None
+
+
+[UnionType] = Union[[Type1], [Type2], [Type3]]
+
+
+from typing import TypeVar, Generic
+
+T = TypeVar('T')
+
+
+class [GenericTypeName](Generic[T]):
+    """[Generic type description]"""
+
+    def __init__(self, data: T):
+        self.data = data
+```
+
+---
+
+## Error Codes
+
+### HTTP Status Codes
+
+| Code | Name | Description |
+|------|------|-------------|
+| 200 | OK | Request succeeded |
+| 201 | Created | Resource created |
+| 204 | No Content | Request succeeded, no content returned |
+| 400 | Bad Request | Invalid request |
+| 401 | Unauthorized | Authentication required |
+| 403 | Forbidden | Insufficient permissions |
+| 404 | Not Found | Resource not found |
+| 409 | Conflict | Resource conflict |
+| 422 | Unprocessable Entity | Validation error |
+| 429 | Too Many Requests | Rate limit exceeded |
+| 500 | Internal Server Error | Server error |
+| 503 | Service Unavailable | Service temporarily unavailable |
+
+### Application Error Codes
+
+| Code | Description | Resolution |
+|------|-------------|------------|
+| `[ERR_001]` | [Error description] | [Resolution] |
+| `[ERR_002]` | [Error description] | [Resolution] |
+| `[ERR_003]` | [Error description] | [Resolution] |
+
+### Error Response Format
+
+```json
+{
+  "error": {
+    "code": "[ERROR_CODE]",
+    "message": "[Human-readable error message]",
+    "details": {
+      "[field1]": "[Additional error details]",
+      "[field2]": "[Additional error details]"
+    },
+    "requestId": "[uuid]",
+    "timestamp": "2024-01-01T00:00:00Z"
+  }
+}
+```
+
+---
+
+## Rate Limiting
+
+### Limits
+
+| Tier | Requests | Time Window |
+|------|----------|-------------|
+| Free | 100 | 1 hour |
+| Basic | 1,000 | 1 hour |
+| Pro | 10,000 | 1 hour |
+| Enterprise | Unlimited | - |
+
+### Headers
+
+Rate limit information is included in response headers:
+
+```http
+X-RateLimit-Limit: 1000
+X-RateLimit-Remaining: 999
+X-RateLimit-Reset: 1609459200
+```
+
+### Handling Limits
+
+```typescript
+try {
+  const result = await client.method();
+} catch (error) {
+  if (error.code === 429) {
+    // Rate limit exceeded
+    const retryAfter = error.headers['Retry-After'];
+    console.log(`Retry after ${retryAfter} seconds`);
+
+    // Implement exponential backoff
+    await sleep(retryAfter * 1000);
+    return await client.method();
+  }
+}
+```
+
+---
+
+## Changelog
+
+### Version X.Y.Z
+
+**Added**:
+- [New endpoint/feature]
+
+**Changed**:
+- [Modified endpoint/feature]
+
+**Deprecated**:
+- [Old endpoint/feature]
+
+**Removed**:
+- [Removed endpoint/feature]
+
+---
+
+## Support
+
+- Documentation: [URL]
+- Issues: [GitHub URL]
+- Email: [support email]

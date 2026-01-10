@@ -1,0 +1,760 @@
+# User Guide
+
+> **Template Instructions**: This is a reusable template for user-facing documentation. Replace all placeholder text (marked with `[ ]`) with your specific tool details.
+
+---
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Quick Start](#quick-start)
+- [Installation](#installation)
+- [Basic Usage](#basic-usage)
+- [Advanced Features](#advanced-features)
+- [API Reference](#api-reference)
+- [Configuration](#configuration)
+- [Troubleshooting](#troubleshooting)
+- [FAQ](#faq)
+- [Examples](#examples)
+
+---
+
+## Overview
+
+### What is [Tool Name]?
+
+[Clear, concise description of what the tool does in language users understand]
+
+### Key Features
+
+- **[Feature 1]**: [Brief description]
+- **[Feature 2]**: [Brief description]
+- **[Feature 3]**: [Brief description]
+- **[Feature 4]**: [Brief description]
+
+### Use Cases
+
+- **[Use Case 1]**: [Description and scenario]
+- **[Use Case 2]**: [Description and scenario]
+- **[Use Case 3]**: [Description and scenario]
+
+---
+
+## Quick Start
+
+### 5-Minute Setup
+
+```bash
+# Step 1: Install
+[Installation command]
+
+# Step 2: Configure
+[Configuration command]
+
+# Step 3: Run
+[Execution command]
+```
+
+### Your First [Operation]
+
+```typescript
+// Basic example
+import { [ToolName] } from '[package-name]';
+
+const [instance] = new [ToolName]({
+  [configKey]: [configValue]
+});
+
+const result = await [instance].[method]({
+  [param]: [value]
+});
+
+console.log(result);
+```
+
+**Expected Output**:
+```json
+[Example output]
+```
+
+---
+
+## Installation
+
+### Prerequisites
+
+Before installing [Tool Name], ensure you have:
+
+- **[Requirement 1]**: [Version or details]
+- **[Requirement 2]**: [Version or details]
+- **[Requirement 3]**: [Optional - Version or details]
+
+### Installation Methods
+
+#### Method 1: Package Manager (Recommended)
+
+```bash
+# Using npm
+npm install [package-name]
+
+# Using yarn
+yarn add [package-name]
+
+# Using pnpm
+pnpm add [package-name]
+```
+
+#### Method 2: Clone Repository
+
+```bash
+git clone https://github.com/[org]/[repo].git
+cd [repo]
+npm install
+npm build
+```
+
+#### Method 3: Docker
+
+```bash
+docker pull [docker-image]
+docker run [docker-image]
+```
+
+### Verify Installation
+
+```bash
+[Package-name] --version
+# Expected output: [Tool Name] v[X.Y.Z]
+```
+
+### Post-Installation Setup
+
+**Step 1: Configure**
+
+```bash
+# Create configuration file
+[Tool-name] init
+
+# Edit configuration
+nano [config-file].[ext]
+```
+
+**Step 2: Initialize**
+
+```bash
+# Run initialization
+[Tool-name] setup
+```
+
+**Step 3: Test**
+
+```bash
+# Run test command
+[Tool-name] test
+```
+
+---
+
+## Basic Usage
+
+### Core Concepts
+
+**[Concept 1]**: [Explanation]
+
+**[Concept 2]**: [Explanation]
+
+**[Concept 3]**: [Explanation]
+
+### Initialization
+
+```typescript
+import { [ToolName] } from '[package-name]';
+
+// Basic initialization
+const [instance] = new [ToolName]({
+  [option1]: [value1],
+  [option2]: [value2]
+});
+
+// Advanced initialization
+const [instance] = new [ToolName]({
+  [option1]: [value1],
+  [option2]: [value2],
+  [advancedOption1]: [value3],
+  [advancedOption2]: [value4]
+});
+```
+
+### Common Operations
+
+#### Operation 1: [Name]
+
+```typescript
+const result = await [instance].[method1]({
+  [param1]: [value1],
+  [param2]: [value2]
+});
+
+console.log(result);
+```
+
+**Parameters**:
+- `[param1]`: [Type] - [Description]
+- `[param2]`: [Type] - [Description]
+
+**Returns**: [Return type and description]
+
+**Example Response**:
+```json
+{
+  "[field]": "[value]"
+}
+```
+
+#### Operation 2: [Name]
+
+```typescript
+const result = await [instance].[method2]({
+  [param1]: [value1],
+  [param2]: [value2]
+});
+```
+
+**Parameters**:
+- `[param1]`: [Type] - [Description]
+- `[param2]`: [Type] - [Description]
+
+**Returns**: [Return type and description]
+
+#### Operation 3: [Name]
+
+```typescript
+const result = await [instance].[method3]([value]);
+```
+
+**Parameters**:
+- `[param]`: [Type] - [Description]
+
+**Returns**: [Return type and description]
+
+### Working with Data
+
+#### Input Data Format
+
+```typescript
+interface [InputType] {
+  [field1]: [type];
+  [field2]: [type];
+  [field3]?: [optionalType];
+}
+```
+
+#### Output Data Format
+
+```typescript
+interface [OutputType] {
+  [field1]: [type];
+  [field2]: [type];
+  [metadata]?: {
+    [timestamp]: [type];
+    [id]: [type];
+  };
+}
+```
+
+### Error Handling
+
+```typescript
+try {
+  const result = await [instance].[method]([params]);
+} catch (error) {
+  if (error instanceof [SpecificError]) {
+    // Handle specific error
+    console.error('[Error message]:', error.message);
+  } else {
+    // Handle generic error
+    console.error('Unexpected error:', error);
+  }
+}
+```
+
+### Best Practices
+
+1. **[Best Practice 1]**
+   - [Why it matters]
+   - [How to do it]
+
+2. **[Best Practice 2]**
+   - [Why it matters]
+   - [How to do it]
+
+3. **[Best Practice 3]**
+   - [Why it matters]
+   - [How to do it]
+
+---
+
+## Advanced Features
+
+### Feature 1: [Feature Name]
+
+**Overview**: [What this feature does and when to use it]
+
+```typescript
+// Example usage
+const result = await [instance].[advancedMethod]({
+  [param]: [value],
+  [advancedParam]: [advancedValue]
+});
+```
+
+**Configuration Options**:
+- `[option1]`: [Description and default value]
+- `[option2]`: [Description and default value]
+
+**Use Cases**:
+- [Use case 1]
+- [Use case 2]
+
+### Feature 2: [Feature Name]
+
+**Overview**: [What this feature does and when to use it]
+
+```typescript
+// Example usage
+[Code example]
+```
+
+**Performance Considerations**:
+- [Consideration 1]
+- [Consideration 2]
+
+### Feature 3: [Feature Name]
+
+**Overview**: [What this feature does and when to use it]
+
+```typescript
+// Example usage
+[Code example]
+```
+
+**Limitations**:
+- [Limitation 1]
+- [Limitation 2]
+
+### Customization
+
+#### Custom [Component 1]
+
+```typescript
+// Extend or customize behavior
+class Custom[Component] extends [BaseComponent] {
+  async [customMethod]() {
+    // Custom implementation
+  }
+}
+
+const [instance] = new [ToolName]({
+  [component]: new Custom[Component]()
+});
+```
+
+#### Custom [Component 2]
+
+```typescript
+// Plugin or middleware example
+[instance].use([middleware]({
+  [option]: [value]
+}));
+```
+
+### Performance Tuning
+
+**Optimization Strategy 1**:
+```typescript
+[Example of optimization]
+```
+
+**Optimization Strategy 2**:
+```typescript
+[Example of optimization]
+```
+
+**Benchmark Results**:
+| Operation | Baseline | Optimized | Improvement |
+|-----------|----------|-----------|-------------|
+| [Op 1] | [Time] | [Time] | [%] |
+| [Op 2] | [Time] | [Time] | [%] |
+
+---
+
+## API Reference
+
+### Core API
+
+#### Class: [ToolName]
+
+**Constructor**:
+```typescript
+constructor(options: {
+  [option1]: [type];
+  [option2]?: [type];
+  [option3]?: [type];
+})
+```
+
+**Methods**:
+
+##### [method1]()
+
+```typescript
+async [method1](
+  [param1]: [type],
+  [param2]: [type]
+): Promise<[returnType]>
+```
+
+**Description**: [What this method does]
+
+**Parameters**:
+- `[param1]` ([type]): [Description]
+- `[param2]` ([type]): [Description]
+
+**Returns**: [Description of return value]
+
+**Throws**:
+- `[ErrorType]`: [When this error is thrown]
+
+**Example**:
+```typescript
+const result = await [instance].[method1]([value], [value]);
+```
+
+##### [method2]()
+
+```typescript
+[method2](
+  [param1]: [type],
+  [options]?: {
+    [option1]: [type];
+  }
+): [returnType]
+```
+
+**Description**: [What this method does]
+
+**Parameters**:
+- `[param1]` ([type]): [Description]
+- `[options]` ([object]): [Description]
+  - `[option1]` ([type]): [Description]
+
+**Returns**: [Description of return value]
+
+**Example**:
+```typescript
+const result = [instance].[method2]([value], {
+  [option1]: [value]
+});
+```
+
+### Utility Functions
+
+#### [function1]()
+
+```typescript
+export function [function1](
+  [param]: [type]
+): [returnType]
+```
+
+**Description**: [What this function does]
+
+**Example**:
+```typescript
+import { [function1] } from '[package-name]';
+
+const result = [function1]([value]);
+```
+
+### Type Definitions
+
+```typescript
+// Core types
+interface [Type1] {
+  [field1]: [type];
+  [field2]: [type];
+}
+
+type [Type2] = {
+  [field1]: [type];
+  [field2]?: [type];
+}
+
+enum [Enum1] {
+  [Value1] = '[value]',
+  [Value2] = '[value]'
+}
+```
+
+---
+
+## Configuration
+
+### Configuration File
+
+**Location**: `[config-path]/[config-file].[ext]`
+
+**Structure**:
+```json
+{
+  "[section1]": {
+    "[key1]": "[value1]",
+    "[key2]": "[value2]"
+  },
+  "[section2]": {
+    "[key1]": "[value1]"
+  }
+}
+```
+
+### Environment Variables
+
+| Variable | Type | Required | Default | Description |
+|----------|------|----------|---------|-------------|
+| `[VAR_1]` | [type] | Yes | - | [Description] |
+| `[VAR_2]` | [type] | No | [default] | [Description] |
+| `[VAR_3]` | [type] | No | [default] | [Description] |
+
+### Configuration Options
+
+#### [Section 1]: [Purpose]
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `[option1]` | [type] | [default] | [Description] |
+| `[option2]` | [type] | [default] | [Description] |
+| `[option3]` | [type] | [default] | [Description] |
+
+#### [Section 2]: [Purpose]
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `[option1]` | [type] | [default] | [Description] |
+| `[option2]` | [type] | [default] | [Description] |
+
+### Configuration Profiles
+
+**Development Profile**:
+```typescript
+const config = {
+  [env]: 'development',
+  [debug]: true,
+  [logging]: 'verbose'
+};
+```
+
+**Production Profile**:
+```typescript
+const config = {
+  [env]: 'production',
+  [debug]: false,
+  [logging]: 'error'
+};
+```
+
+---
+
+## Troubleshooting
+
+### Common Issues
+
+#### Issue: [Problem description]
+
+**Symptoms**:
+- [Symptom 1]
+- [Symptom 2]
+
+**Diagnosis**:
+```bash
+# Diagnostic command
+[Command to check the issue]
+```
+
+**Solution**:
+```bash
+# Fix command
+[Command to fix the issue]
+```
+
+**Prevention**:
+- [Prevention tip 1]
+- [Prevention tip 2]
+
+#### Issue: [Problem description]
+
+**Symptoms**:
+- [Symptom 1]
+- [Symptom 2]
+
+**Solution**:
+```typescript
+// Code fix
+[Fix example]
+```
+
+### Debug Mode
+
+**Enable Debug Logging**:
+```typescript
+const [instance] = new [ToolName]({
+  debug: true,
+  logLevel: 'debug'
+});
+```
+
+**Debug Output**:
+```
+[Example of debug output format]
+```
+
+### Getting Help
+
+**Check Logs**:
+```bash
+# View logs
+[Command to view logs]
+```
+
+**Health Check**:
+```bash
+# Run health check
+[Tool-name] doctor
+```
+
+**Support Channels**:
+- GitHub Issues: [URL]
+- Documentation: [URL]
+- Community: [URL]
+
+---
+
+## FAQ
+
+### General Questions
+
+**Q: [Question 1]?**
+
+A: [Answer to question 1]
+
+**Q: [Question 2]?**
+
+A: [Answer to question 2]
+
+### Technical Questions
+
+**Q: [Technical question 1]?**
+
+A: [Answer with technical details]
+
+**Q: [Technical question 2]?**
+
+A: [Answer with technical details]
+
+### Integration Questions
+
+**Q: [Integration question 1]?**
+
+A: [Answer with integration details]
+
+**Q: [Integration question 2]?**
+
+A: [Answer with integration details]
+
+---
+
+## Examples
+
+### Example 1: [Use Case Title]
+
+**Scenario**: [Description of the scenario]
+
+**Code**:
+```typescript
+import { [ToolName] } from '[package-name]';
+
+async function [exampleFunction]() {
+  // Setup
+  const [instance] = new [ToolName]({
+    [config]: [value]
+  });
+
+  // Operation
+  const result = await [instance].[method]({
+    [param]: [value]
+  });
+
+  // Handle result
+  console.log(result);
+}
+
+[exampleFunction]();
+```
+
+**Expected Output**:
+```json
+[Expected output]
+```
+
+### Example 2: [Use Case Title]
+
+**Scenario**: [Description of the scenario]
+
+**Code**:
+```typescript
+[Complete code example]
+```
+
+### Example 3: [Integration Pattern]
+
+**Scenario**: [Description of the integration]
+
+**Code**:
+```typescript
+[Complete integration example]
+```
+
+### Real-World Examples
+
+See the `/examples` directory for complete, runnable examples:
+
+- **[Example 1]**: `/examples/[example1-folder]` - [Description]
+- **[Example 2]**: `/examples/[example2-folder]` - [Description]
+- **[Example 3]**: `/examples/[example3-folder]` - [Description]
+
+---
+
+## Additional Resources
+
+### Documentation
+
+- [Architecture Documentation](./ARCHITECTURE.md) - System design and architecture
+- [Developer Guide](./DEVELOPER_GUIDE.md) - Contributing and development
+- [API Reference](./API_REFERENCE.md) - Complete API documentation
+- [Migration Guides](./MIGRATION.md) - Version migration guides
+
+### Community
+
+- GitHub: [Repository URL]
+- Discord: [Server URL]
+- Twitter: [@handle]
+
+### Related Tools
+
+- [Tool 1]: [Description and link]
+- [Tool 2]: [Description and link]
+
+---
+
+**Version**: [Current version]
+**Last Updated**: [Date]
+**Next Review**: [Date]

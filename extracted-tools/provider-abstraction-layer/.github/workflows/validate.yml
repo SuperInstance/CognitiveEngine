@@ -1,0 +1,207 @@
+name: Validate Package
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-structure:
+    name: Validate package structure
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install validation dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install check-manifest pyroma
+
+      - name: Check package structure
+        run: |
+          python -c "
+          import os
+          import sys
+
+          required_files = [
+              'README.md',
+              'LICENSE',
+              'provider_abstraction_layer/__init__.py',
+          ]
+
+          missing = []
+          for file in required_files:
+              if not os.path.exists(file):
+                  missing.append(file)
+
+          if missing:
+              print(f'Missing required files: {missing}')
+              sys.exit(1)
+          else:
+              print('All required files present!')
+          "
+
+      - name: Validate MANIFEST.in
+        run: |
+          if [ -f MANIFEST.in ]; then
+            check-manifest -v || true
+          else
+            echo "No MANIFEST.in found, skipping..."
+          fi
+
+      - name: Validate package quality
+        run: |
+          pyroma . || true
+
+      - name: Check setup.py validity
+        run: |
+          if [ -f setup.py ]; then
+            python setup.py check
+          else
+            echo "No setup.py found, using pyproject.toml..."
+          fi
+
+      - name: Validate metadata
+        run: |
+          python -c "
+          import sys
+          try:
+              # Try to read pyproject.toml
+              try:
+                  from setuptools.config.pyprojecttoml import read_configuration
+                  config = read_configuration('pyproject.toml')
+                  project = config.get('project', {})
+              except:
+                  # Fallback to setup.py
+                  import subprocess
+                  result = subprocess.run(['python', 'setup.py', '--version'], capture_output=True, text=True)
+                  project = {'version': result.stdout.strip()}
+
+              # Check required fields
+              if 'name' in project:
+                  print(f'Name: {project.get(\"name\")}')
+              if 'version' in project:
+                  version = project.get('version')
+                  print(f'Version: {version}')
+                  if not version:
+                      print('Version is empty!')
+                      sys.exit(1)
+
+              print('Package metadata is valid!')
+
+          except Exception as e:
+              print(f'Error reading package config: {e}')
+              sys.exit(1)
+          "
+
+  validate-installation:
+    name: Validate installation
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ['3.9', '3.12']
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+
+      - name: Verify installation
+        run: |
+          python -c "
+          from provider_abstraction_layer import ProviderManager
+          print('Package installed successfully!')
+          "
+
+      - name: Check package contents
+        run: |
+          python -c "
+          import pkgutil
+          import provider_abstraction_layer
+
+          # List all modules
+          modules = []
+          for importer, modname, ispkg in pkgutil.walk_packages(
+              path=provider_abstraction_layer.__path__,
+              prefix=provider_abstraction_layer.__name__ + '.',
+              onerror=lambda x: None
+          ):
+              modules.append(modname)
+
+          print(f'Found {len(modules)} modules:')
+          for module in sorted(modules)[:10]:
+              print(f'  - {module}')
+
+          if len(modules) > 10:
+              print(f'  ... and {len(modules) - 10} more')
+          "
+
+      - name: Test basic import
+        run: |
+          python -c "
+          from provider_abstraction_layer import ProviderManager
+          from provider_abstraction_layer.providers.base import BaseProvider
+          print('All core imports successful!')
+          "
+
+  validate-dependencies:
+    name: Validate dependencies
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+
+      - name: Check for dependency conflicts
+        run: |
+          pip check
+
+      - name: List installed packages
+        run: |
+          pip list
+
+      - name: Validate dependency versions
+        run: |
+          python -c "
+          import sys
+          import pkg_resources
+
+          print('Python version:', sys.version)
+          print('\\nInstalled dependencies:')
+
+          for dist in pkg_resources.working_set:
+              if dist.project_name.lower() in ['pydantic', 'httpx', 'openai']:
+                  print(f'  {dist.project_name}: {dist.version}')
+          "
