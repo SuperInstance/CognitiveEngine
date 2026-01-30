@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.0",
-    "@types/node": "^22.0.0",
+    "@types/node": "^25.1.0",
     "@types/ws": "^8.5.13",
     "@types/pg": "^8.11.10",
     "tsx": "^4.19.2",
