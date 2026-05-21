@@ -113,7 +113,15 @@ class Tile:
             return Confidence.AMBIGUOUS
         return Confidence.UNKNOWN
 
+    def __repr__(self) -> str:
+        return (
+            f"Tile({self.tile_type.value}, {self.input_pattern!r}, "
+            f"conf={self.confidence:.2f})"
+        )
+
     def record_use(self, correct: bool) -> None:
+        if not isinstance(correct, bool):
+            raise TypeError(f"correct must be bool, got {type(correct).__name__}")
         self.times_used += 1
         if correct:
             self.times_correct += 1
@@ -210,6 +218,9 @@ class TileStore:
         self._lock = threading.Lock()
 
     def add(self, tile: Tile) -> str:
+        """Add a tile to the store. Returns the tile_id."""
+        if not isinstance(tile, Tile):
+            raise TypeError(f"Expected Tile, got {type(tile).__name__}")
         with self._lock:
             tid = tile.tile_id
             self._tiles[tid] = tile
@@ -253,6 +264,9 @@ class TileStore:
                         pass
                 return True
             return False
+
+    def __repr__(self) -> str:
+        return f"TileStore({len(self._tiles)} tiles)"
 
     def __len__(self) -> int:
         return len(self._tiles)

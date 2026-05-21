@@ -33,6 +33,20 @@ __all__ = [
     "CheckpointManager",
     "CheckpointDiff",
     "TrainingExample",
+    # Nav/Cocapn
+    "NavComputer",
+    "NavButton",
+    "MouseAction",
+    "ClickType",
+    "ChartData",
+    "ChartInterpreter",
+    "CocapnChatbot",
+    # Simulators
+    "AutopilotSimulator",
+    "FishSortSimulator",
+    "ChartSimulator",
+    "CaptainReviewSimulator",
+    "FullTripSimulator",
 ]
 
 from .tiles import Tile, TileType, Confidence, Verifier, TileStore, CommandTile, VisionTile, ChartTile
@@ -45,4 +59,13 @@ from .training import (
     CheckpointManager,
     CheckpointDiff,
     TrainingExample,
+)
+from .chart import ChartData
+from .cocapn import NavComputer, NavButton, MouseAction, ClickType, ChartInterpreter, CocapnChatbot
+from .simulators import (
+    AutopilotSimulator,
+    FishSortSimulator,
+    ChartSimulator,
+    CaptainReviewSimulator,
+    FullTripSimulator,
 )

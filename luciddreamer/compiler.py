@@ -123,6 +123,9 @@ class RigidFinder:
         result = result.replace('PLACEHOLDER_DIGITS', r'(?P<n>\d+)')
         return f"^{result}$"
 
+    def __repr__(self) -> str:
+        return f"RigidFinder(compiled={self.compiled_count}, coverage={self.coverage:.1%})"
+
     @property
     def compiled_count(self) -> int:
         return len(self._compiled)

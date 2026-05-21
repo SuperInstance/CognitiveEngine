@@ -109,6 +109,9 @@ class TrainingExample:
     confidence: float = 1.0     # How reliable this example is
     tile_id: str = ""           # Source tile if applicable
 
+    def __repr__(self) -> str:
+        return f"TrainingExample({self.instruction!r}, source={self.source})"
+
     def to_alpaca(self) -> dict:
         """Convert to Alpaca format for LoRA training."""
         return {
@@ -146,6 +149,9 @@ class TrainingDataGenerator:
         self.store = store
         self.system_prompt = system_prompt
         self.min_confidence = min_confidence
+
+    def __repr__(self) -> str:
+        return f"TrainingDataGenerator(tiles={len(self.store)}, min_conf={self.min_confidence})"
 
     def generate(self, include_variations: bool = True,
                  include_negatives: bool = True,
@@ -415,6 +421,9 @@ class CheckpointManager:
         self._checkpoints: list[LoRACheckpoint] = []
         self._active_version: str = ""
         self._lock = threading.Lock()
+
+    def __repr__(self) -> str:
+        return f"CheckpointManager(active={self._active_version!r}, versions={len(self._checkpoints)})"
 
     def add(self, checkpoint: LoRACheckpoint) -> CheckpointDiff:
         """Add a new checkpoint and compare against the current active."""

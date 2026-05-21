@@ -134,6 +134,12 @@ class NavComputer:
             "measure": NavButton("Measure Tool", 1800, 560, toggle=False),
         }
 
+    def __repr__(self) -> str:
+        return (
+            f"NavComputer({self.screen_width}x{self.screen_height}, "
+            f"zoom={self.zoom_level}, range={self.chart_range:.0f}nm)"
+        )
+
     def accept_mouse(self, action: MouseAction) -> str:
         """Accept a mouse action and return what changed.
 
@@ -296,6 +302,9 @@ class ChartInterpreter:
         self.store = store
         self._seed_chart_tiles()
 
+    def __repr__(self) -> str:
+        return f"ChartInterpreter({len(self.store)} tiles)"
+
     def _seed_chart_tiles(self) -> None:
         """Pre-load basic chart knowledge as tiles."""
         seeds = [
@@ -431,6 +440,13 @@ class CocapnChatbot:
         self._conversation: list[dict] = []
         self._review_queue: list[dict] = []
         self._aborted = False
+
+    def __repr__(self) -> str:
+        return (
+            f"CocapnChatbot(tiles={len(self.store)}, "
+            f"pending={len(self.list_pending())}, "
+            f"conversation={len(self._conversation)})"
+        )
 
     def chat(self, text: str) -> dict:
         """Process captain input and return a response.

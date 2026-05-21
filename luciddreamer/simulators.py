@@ -108,6 +108,9 @@ class AutopilotSimulator:
         self.vessel = vessel
         self._rng = random.Random(seed)
 
+    def __repr__(self) -> str:
+        return f"AutopilotSimulator(count={self.count}, difficulty={self.difficulty:.2f})"
+
     # -- generators by category --
 
     def _exact_match(self) -> dict:
@@ -365,6 +368,9 @@ class FishSortSimulator:
         self.holds = holds
         self._rng = random.Random(seed)
 
+    def __repr__(self) -> str:
+        return f"FishSortSimulator(count={self.count}, error_rate={self.error_rate:.2f}, holds={self.holds})"
+
     def _pick_species(self) -> tuple[str, str, str]:
         """Returns (common_name, scientific_name, slang)."""
         if self._rng.random() < 0.7:
@@ -526,6 +532,9 @@ class ChartSimulator:
         self.depth_variation = depth_variation
         self.vessel = vessel
         self._rng = random.Random(seed)
+
+    def __repr__(self) -> str:
+        return f"ChartSimulator(count={self.count}, depth_base={self.depth_base:.0f})"
 
     def _random_depth(self) -> float:
         """Generate a realistic depth sounding in fathoms."""
@@ -710,6 +719,9 @@ class CaptainReviewSimulator:
         self._rng = random.Random(seed)
         self._sessions: list[dict] = []
 
+    def __repr__(self) -> str:
+        return f"CaptainReviewSimulator(sessions={len(self._sessions)}, confirm_rate={self.confirm_rate:.2f})"
+
     def review_session(self, tiles: list[Tile]) -> dict:
         """Run a single review session over ambiguous tiles.
 
@@ -848,6 +860,13 @@ class FullTripSimulator:
         self._seed = seed
         self._rng = random.Random(seed)
 
+    def __repr__(self) -> str:
+        return (
+            f"FullTripSimulator({self.trip_id}, "
+            f"ap={self.autopilot_commands}, fish={self.fish_events}, "
+            f"chart={self.chart_queries})"
+        )
+
     def run(self) -> dict:
         """Run the full trip simulation.
 
@@ -921,6 +940,18 @@ class FullTripSimulator:
         compiled_count = len(compiled)
         coverage = compiled_count / max(1, total_tiles)
 
+        # Clearer message when no tiles reach compile threshold
+        if coverage == 0.0:
+            coverage_note = (
+                f"No tiles compiled — need confidence > {RigidFinder.COMPILE_THRESHOLD:.1%} "
+                f"and ≥ {RigidFinder.MIN_SAMPLES} verified uses. "
+                f"{total_tiles} tiles in store, none yet eligible."
+            )
+        else:
+            coverage_note = (
+                f"{compiled_count}/{total_tiles} tiles compiled ({coverage:.1%})"
+            )
+
         return {
             "simulator": "full_trip",
             "trip_id": self.trip_id,
@@ -939,6 +970,7 @@ class FullTripSimulator:
             "compilation_stats": {
                 "compiled_commands": compiled_count,
                 "coverage": round(coverage, 3),
+                "note": coverage_note,
             },
             "coverage_by_type": {
                 t.value: len(store.find_by_type(t)) for t in TileType

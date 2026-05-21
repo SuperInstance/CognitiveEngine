@@ -42,7 +42,7 @@ class BathymetricMap:
     soundings: dict[str, DepthSounding] = field(default_factory=dict)
 
     def update(self, region: str, compiled: int, total: int,
-               ambiguous: int = 0, unknown: int = 0):
+               ambiguous: int = 0, unknown: int = 0) -> None:
         self.soundings[region] = DepthSounding(
             region=region,
             total_commands=total,
@@ -79,6 +79,9 @@ class BathymetricMap:
         lines.append("")
         lines.append("  █ = compiled (zero inference)  ░ = needs model")
         return "\n".join(lines)
+
+    def __repr__(self) -> str:
+        return f"BathymetricMap({len(self.soundings)} regions, coverage={self.overall_coverage:.1%})"
 
     @property
     def overall_coverage(self) -> float:

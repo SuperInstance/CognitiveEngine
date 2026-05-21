@@ -80,9 +80,23 @@ class Router:
 
         return (RouteDecision.FALLBACK, {"action": "UNKNOWN", "input": text})
 
+    def __repr__(self) -> str:
+        return f"Router(tiles={len(self.store)}, compiled={self.finder.compiled_count}, pending={self.pending_count})"
+
     def confirm_pending(self, index: int, correct: bool,
                         correction: str = "") -> Optional[str]:
-        if index >= len(self._pending):
+        """Confirm or correct a pending fallback result.
+
+        Args:
+            index: 0-based index into the pending list. Negative indices
+                are rejected. Raises IndexError if out of range.
+            correct: True if the fallback result was correct.
+            correction: Replacement action if correct=False.
+
+        Returns:
+            tile_id of the newly created tile, or None if index was invalid.
+        """
+        if not isinstance(index, int) or index < 0 or index >= len(self._pending):
             return None
         pending = self._pending.pop(index)
         tile_type = TileType.COMMAND if correct else TileType.CORRECTION

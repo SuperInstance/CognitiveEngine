@@ -30,7 +30,7 @@ from .simulators import (
 )
 
 
-def _print_json(obj, indent=2):
+def _print_json(obj: object, indent: int = 2) -> None:
     """Print a JSON-serializable object, filtering non-serializable keys."""
     if isinstance(obj, dict):
         clean = {k: v for k, v in obj.items()
@@ -45,7 +45,7 @@ def _print_json(obj, indent=2):
 
 # ---- simulate subcommands ----
 
-def cmd_simulate_autopilot(args):
+def cmd_simulate_autopilot(args: argparse.Namespace) -> dict:
     sim = AutopilotSimulator(
         count=args.count, difficulty=args.difficulty,
         seed=args.seed, vessel=args.vessel,
@@ -64,7 +64,7 @@ def cmd_simulate_autopilot(args):
     return result
 
 
-def cmd_simulate_fish(args):
+def cmd_simulate_fish(args: argparse.Namespace) -> dict:
     sim = FishSortSimulator(
         count=args.count, error_rate=args.error_rate,
         seed=args.seed, vessel=args.vessel,
@@ -83,7 +83,7 @@ def cmd_simulate_fish(args):
     return result
 
 
-def cmd_simulate_chart(args):
+def cmd_simulate_chart(args: argparse.Namespace) -> dict:
     sim = ChartSimulator(count=args.count, seed=args.seed, vessel=args.vessel)
     result = sim.run()
     print(f"\n=== Chart Simulation ({result['total']} queries) ===\n")
@@ -97,7 +97,7 @@ def cmd_simulate_chart(args):
     return result
 
 
-def cmd_simulate_trip(args):
+def cmd_simulate_trip(args: argparse.Namespace) -> dict:
     sim = FullTripSimulator(seed=args.seed, vessel=args.vessel)
     result = sim.run()
     print(f"\n{'='*60}")
@@ -139,7 +139,7 @@ def cmd_simulate_trip(args):
 
 # ---- tiles subcommands ----
 
-def cmd_tiles_list(args):
+def cmd_tiles_list(args: argparse.Namespace) -> None:
     """List tiles from a simulation."""
     store = _build_store_from_sim(args)
     tile_type = None
@@ -164,7 +164,7 @@ def cmd_tiles_list(args):
         print(f"  ... and {len(tiles) - 50} more")
 
 
-def cmd_tiles_compile(args):
+def cmd_tiles_compile(args: argparse.Namespace) -> None:
     """Compile tiles and show results."""
     store = _build_store_from_sim(args)
     finder = RigidFinder(store)
@@ -181,7 +181,7 @@ def cmd_tiles_compile(args):
 
 # ---- bathymetry ----
 
-def cmd_bathymetry(args):
+def cmd_bathymetry(args: argparse.Namespace) -> None:
     """Render the bathymetric coverage map."""
     store = _build_store_from_sim(args)
     bathy = BathymetricMap()
@@ -192,7 +192,7 @@ def cmd_bathymetry(args):
 
 # ---- beta-test ----
 
-def cmd_beta_test(args):
+def cmd_beta_test(args: argparse.Namespace) -> dict:
     """Run all simulators and check scores."""
     print(f"\n{'='*60}")
     print(f"  LUCIDDREAMER BETA TEST")
@@ -261,7 +261,7 @@ def cmd_beta_test(args):
 
 # ---- helpers ----
 
-def _build_store_from_sim(args) -> TileStore:
+def _build_store_from_sim(args: argparse.Namespace) -> TileStore:
     """Run simulations to populate a TileStore for tiles/bathymetry commands."""
     seed = getattr(args, 'seed', 42) or 42
     vessel = getattr(args, 'vessel', 'F/V Horizon')
@@ -346,7 +346,7 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def main(argv: Optional[list[str]] = None):
+def main(argv: Optional[list[str]] = None) -> Optional[dict]:
     parser = build_parser()
     args = parser.parse_args(argv)
 
