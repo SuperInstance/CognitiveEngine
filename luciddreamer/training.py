@@ -5,7 +5,7 @@ manages checkpoints, and handles rollback analysis.
 
 The system trains itself overnight using today's verified tiles.
 Weekly, it does a bigger cloud training pass. Every checkpoint is
-compared against the previous one — if accuracy drops, rollback
+compared against the previous one - if accuracy drops, rollback
 and diagnose what went wrong.
 
 Design principle: ZERO-SHOT FIRST.
@@ -19,6 +19,7 @@ from typing import Optional
 import json
 import hashlib
 import time
+import threading
 
 from .tiles import Tile, TileStore, TileType, Verifier, Confidence
 
@@ -86,7 +87,7 @@ _PARAPHRASE_TEMPLATES = {
     ],
 }
 
-# Negative examples — things that should NOT be treated as commands
+# Negative examples - things that should NOT be treated as commands
 _NEGATIVE_EXAMPLES = [
     ("what's the weather like", "NOT_NAV_COMMAND: weather_query"),
     ("how far to port", "AMBIGUOUS: 'port' could mean harbor or left. Ask: 'Do you mean turn left?'"),
@@ -107,7 +108,7 @@ class TrainingExample:
     source: str = "tile"        # tile, variation, negative, cloud
     confidence: float = 1.0     # How reliable this example is
     tile_id: str = ""           # Source tile if applicable
-    
+
     def to_alpaca(self) -> dict:
         """Convert to Alpaca format for LoRA training."""
         return {
@@ -116,7 +117,7 @@ class TrainingExample:
             "output": self.output,
             "system": self.system_prompt,
         }
-    
+
     def to_chatml(self) -> list[dict]:
         """Convert to ChatML format."""
         msgs = []
@@ -129,28 +130,28 @@ class TrainingExample:
 
 class TrainingDataGenerator:
     """Generate LoRA training data from accumulated tiles.
-    
+
     Every verified tile becomes a training example. The generator also
     creates variations (paraphrases), negative examples, and curriculum
     mixes for stable training.
-    
+
     Usage:
         gen = TrainingDataGenerator(store, system_prompt="You are Cocapn...")
         data = gen.generate()
         # data is ready for LoRA fine-tuning
     """
-    
+
     def __init__(self, store: TileStore, system_prompt: str = "",
                  min_confidence: float = 0.8):
         self.store = store
         self.system_prompt = system_prompt
         self.min_confidence = min_confidence
-    
+
     def generate(self, include_variations: bool = True,
                  include_negatives: bool = True,
                  variations_per_tile: int = 10) -> list[TrainingExample]:
         """Generate complete training dataset.
-        
+
         Mix:
         - All verified tiles (high confidence)
         - Paraphrase variations (for zero-shot generalization)
@@ -158,7 +159,7 @@ class TrainingDataGenerator:
         - Historical data (for curriculum stability)
         """
         examples = []
-        
+
         # 1. Verified tiles (ground truth from captain interactions)
         for tile in self.store:
             if tile.confidence >= self.min_confidence:
@@ -171,14 +172,14 @@ class TrainingDataGenerator:
                     tile_id=tile.tile_id,
                 )
                 examples.append(ex)
-        
+
         # 2. Paraphrase variations (zero-shot generalization)
         if include_variations:
             for tile in self.store:
                 if tile.confidence >= 0.9 and tile.tile_type == TileType.COMMAND:
                     variations = self._generate_variations(tile, variations_per_tile)
                     examples.extend(variations)
-        
+
         # 3. Negative examples (rejection learning)
         if include_negatives:
             for inp, out in _NEGATIVE_EXAMPLES:
@@ -189,7 +190,7 @@ class TrainingDataGenerator:
                     source="negative",
                     confidence=1.0,
                 ))
-            
+
             # Also from negative tiles in the store
             for tile in self.store:
                 if tile.tile_type == TileType.NEGATIVE:
@@ -201,30 +202,30 @@ class TrainingDataGenerator:
                         confidence=tile.confidence,
                         tile_id=tile.tile_id,
                     ))
-        
+
         return examples
-    
+
     def _generate_variations(self, tile: Tile, count: int) -> list[TrainingExample]:
         """Generate paraphrase variations for a command tile."""
         import re
-        
+
         # Extract the action type and number from the tile
         action = tile.output_action
         examples = []
-        
+
         # Find matching template group
         for action_prefix, templates in _PARAPHRASE_TEMPLATES.items():
             if action.startswith(action_prefix):
                 # Extract number from action
                 nums = re.findall(r'\d+', action)
                 n = nums[0] if nums else "X"
-                
+
                 for template in templates[:count]:
                     try:
                         variation = template.format(n=n)
                     except (KeyError, IndexError):
                         variation = template
-                    
+
                     examples.append(TrainingExample(
                         instruction=variation,
                         output=action,
@@ -234,18 +235,18 @@ class TrainingDataGenerator:
                         tile_id=tile.tile_id,
                     ))
                 break
-        
+
         return examples[:count]
-    
+
     def generate_curriculum(self, examples: list[TrainingExample],
                            historical: list[TrainingExample] = None,
                            mix_ratio: float = 0.3) -> list[TrainingExample]:
         """Create a curriculum mix of new and historical data.
-        
+
         Prevents catastrophic forgetting by mixing:
         - 70% new data (today's tiles)
         - 30% historical data (previous sessions)
-        
+
         Args:
             examples: New training examples
             historical: Historical training examples (from previous LoRA versions)
@@ -253,21 +254,21 @@ class TrainingDataGenerator:
         """
         if not historical:
             return examples
-        
+
         import random
         n_historical = int(len(examples) * mix_ratio / (1 - mix_ratio))
         n_historical = min(n_historical, len(historical))
         selected = random.sample(historical, n_historical)
-        
+
         return examples + selected
-    
+
     def export_alpaca(self, examples: list[TrainingExample]) -> str:
         """Export training data in Alpaca JSON format."""
         return json.dumps(
             [ex.to_alpaca() for ex in examples],
             indent=2,
         )
-    
+
     def export_chatml(self, examples: list[TrainingExample]) -> str:
         """Export training data in ChatML JSON format."""
         return json.dumps(
@@ -288,30 +289,30 @@ class LoRACheckpoint:
     base_model: str = "gemma-3-1b-it"
     lora_rank: int = 16
     lora_alpha: int = 32
-    
+
     # Training metrics
     training_examples: int = 0
     epochs: int = 0
     training_loss: float = 0.0
     validation_loss: float = 0.0
-    
+
     # Accuracy by command type
     accuracy_by_type: dict[str, float] = field(default_factory=dict)
     overall_accuracy: float = 0.0
-    
+
     # Simulator results
     simulator_pass_rate: float = 0.0
-    
+
     # Parent checkpoint (for lineage)
     parent_version: str = ""
-    
+
     # Training data hash (for reproducibility)
     training_data_hash: str = ""
-    
+
     @property
     def checkpoint_id(self) -> str:
         return f"{self.version}-{self.created_at.strftime('%Y%m%d')}"
-    
+
     def to_dict(self) -> dict:
         return {
             "version": self.version,
@@ -324,7 +325,7 @@ class LoRACheckpoint:
             "simulator_pass_rate": self.simulator_pass_rate,
             "parent_version": self.parent_version,
         }
-    
+
     @classmethod
     def from_dict(cls, data: dict) -> "LoRACheckpoint":
         data = data.copy()
@@ -338,30 +339,30 @@ class CheckpointDiff:
     """Compare two LoRA checkpoints to understand what changed."""
     old: LoRACheckpoint
     new: LoRACheckpoint
-    
+
     @property
     def accuracy_delta(self) -> float:
         return self.new.overall_accuracy - self.old.overall_accuracy
-    
+
     @property
     def is_improvement(self) -> bool:
         return self.accuracy_delta > 0.005
-    
+
     @property
     def is_regression(self) -> bool:
         return self.accuracy_delta < -0.01
-    
+
     @property
     def type_deltas(self) -> dict[str, float]:
         """Per-command-type accuracy changes."""
         deltas = {}
-        for cmd_type in set(list(self.old.accuracy_by_type.keys()) + 
+        for cmd_type in set(list(self.old.accuracy_by_type.keys()) +
                            list(self.new.accuracy_by_type.keys())):
             old_acc = self.old.accuracy_by_type.get(cmd_type, 0.0)
             new_acc = self.new.accuracy_by_type.get(cmd_type, 0.0)
             deltas[cmd_type] = new_acc - old_acc
         return deltas
-    
+
     @property
     def worst_regressions(self) -> list[tuple[str, float]]:
         """Command types that got worse, sorted by severity."""
@@ -369,7 +370,7 @@ class CheckpointDiff:
             [(k, v) for k, v in self.type_deltas.items() if v < 0],
             key=lambda x: x[1],
         )
-    
+
     def diagnose(self) -> str:
         """Generate human-readable diagnosis."""
         lines = [
@@ -379,7 +380,7 @@ class CheckpointDiff:
             f"Training examples: {self.old.training_examples} → {self.new.training_examples}",
             "",
         ]
-        
+
         if self.is_regression:
             lines.append("⚠️  REGRESSION DETECTED")
             lines.append("Worst areas:")
@@ -398,59 +399,62 @@ class CheckpointDiff:
         else:
             lines.append("➡️  NEUTRAL (no significant change)")
             lines.append("Recommended action: KEEP current, gather more data")
-        
+
         return "\n".join(lines)
 
 
 class CheckpointManager:
     """Manages LoRA checkpoint versions, promotion, and rollback.
-    
+
     Every training session creates a checkpoint. The manager tracks
     which checkpoint is active, handles promotion (if better) and
     rollback (if worse), and maintains the full lineage.
     """
-    
+
     def __init__(self):
         self._checkpoints: list[LoRACheckpoint] = []
         self._active_version: str = ""
-    
+        self._lock = threading.Lock()
+
     def add(self, checkpoint: LoRACheckpoint) -> CheckpointDiff:
         """Add a new checkpoint and compare against the current active."""
-        self._checkpoints.append(checkpoint)
-        
-        if not self._active_version:
-            self._active_version = checkpoint.version
-            return CheckpointDiff(
-                old=checkpoint,
-                new=checkpoint,
-            )
-        
-        active = self.get_active()
-        diff = CheckpointDiff(old=active, new=checkpoint)
-        
-        if diff.is_improvement:
-            self._active_version = checkpoint.version
-        
-        return diff
-    
+        with self._lock:
+            self._checkpoints.append(checkpoint)
+
+            if not self._active_version:
+                self._active_version = checkpoint.version
+                return CheckpointDiff(
+                    old=checkpoint,
+                    new=checkpoint,
+                )
+
+            active = self.get_active()
+            diff = CheckpointDiff(old=active, new=checkpoint)
+
+            if diff.is_improvement:
+                self._active_version = checkpoint.version
+
+            return diff
+
     def get_active(self) -> Optional[LoRACheckpoint]:
         for cp in self._checkpoints:
             if cp.version == self._active_version:
                 return cp
         return self._checkpoints[-1] if self._checkpoints else None
-    
+
     def rollback(self, version: str) -> Optional[LoRACheckpoint]:
         """Rollback to a specific version."""
-        for cp in self._checkpoints:
-            if cp.version == version:
-                self._active_version = version
-                return cp
-        return None
-    
+        with self._lock:
+            for cp in self._checkpoints:
+                if cp.version == version:
+                    self._active_version = version
+                    return cp
+            return None
+
     def lineage(self) -> list[str]:
         """Full checkpoint lineage."""
         return [cp.version for cp in self._checkpoints]
-    
+
     def export(self) -> str:
         return json.dumps([cp.to_dict() for cp in self._checkpoints], indent=2)
 
@@ -462,16 +466,16 @@ class CheckpointManager:
 MARITIME_SYSTEM_PROMPT = """You are Cocapn, the maritime intelligence assistant. You understand nautical commands, fish species, navigation, and fishing operations.
 
 CRITICAL RULES:
-1. Every command works STANDALONE — no conversation context assumed
+1. Every command works STANDALONE - no conversation context assumed
 2. Emergency commands ("HARD TO PORT", "MAN OVERBOARD") are ALWAYS highest priority
-3. If unsure, ASK — never guess on safety-critical commands  
+3. If unsure, ASK - never guess on safety-critical commands
 4. Depths are in FATHOMS, speed in KNOTS, heading in DEGREES TRUE
 5. Port = left, Starboard = right (facing forward)
 
 RESPONSE FORMAT:
 - For commands: acknowledge with "Roger" + action taken
 - For queries: answer directly and concisely
-- For unknown: say "I'm not sure, skipper — [suggest alternative]"
+- For unknown: say "I'm not sure, skipper - [suggest alternative]"
 """
 
 
@@ -483,7 +487,7 @@ class SystemPromptVersion:
     created_at: datetime = field(default_factory=datetime.now)
     accuracy_with_prompt: float = 0.0
     notes: str = ""
-    
+
     def to_dict(self) -> dict:
         return {
             "version": self.version,

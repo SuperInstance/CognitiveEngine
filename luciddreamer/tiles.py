@@ -15,6 +15,7 @@ from typing import Optional
 import hashlib
 import json
 import re
+import threading
 import time
 
 
@@ -200,20 +201,24 @@ class TileStore:
     Tiles are indexed by tile_id, input_pattern (regex match),
     tile_type, and confidence level. Supports JSON export/import
     for persistence between sessions.
+
+    Thread-safe: all mutations are protected by a lock.
     """
     def __init__(self):
         self._tiles: dict[str, Tile] = {}
         self._by_type: dict[TileType, list[str]] = {t: [] for t in TileType}
+        self._lock = threading.Lock()
 
     def add(self, tile: Tile) -> str:
-        tid = tile.tile_id
-        self._tiles[tid] = tile
-        if tile.tile_type in self._by_type:
-            self._by_type[tile.tile_type].append(tid)
-        return tid
+        with self._lock:
+            tid = tile.tile_id
+            self._tiles[tid] = tile
+            if tile.tile_type in self._by_type:
+                self._by_type[tile.tile_type].append(tid)
+            return tid
 
     def get(self, tile_id: str) -> Optional[Tile]:
-        return self._tiles.get(tile_id)
+        return self._tiles.get(tile_id)  # read-only, no lock needed
 
     def find_by_pattern(self, pattern: str) -> list[Tile]:
         results = []
@@ -238,15 +243,16 @@ class TileStore:
         return [t for t in self._tiles.values() if 0.5 <= t.confidence < 0.9]
 
     def remove(self, tile_id: str) -> bool:
-        if tile_id in self._tiles:
-            tile = self._tiles.pop(tile_id)
-            if tile.tile_type in self._by_type:
-                try:
-                    self._by_type[tile.tile_type].remove(tile_id)
-                except ValueError:
-                    pass
-            return True
-        return False
+        with self._lock:
+            if tile_id in self._tiles:
+                tile = self._tiles.pop(tile_id)
+                if tile.tile_type in self._by_type:
+                    try:
+                        self._by_type[tile.tile_type].remove(tile_id)
+                    except ValueError:
+                        pass
+                return True
+            return False
 
     def __len__(self) -> int:
         return len(self._tiles)
