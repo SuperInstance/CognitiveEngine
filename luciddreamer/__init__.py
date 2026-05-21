@@ -47,6 +47,11 @@ __all__ = [
     "ChartSimulator",
     "CaptainReviewSimulator",
     "FullTripSimulator",
+    # Signal Chain
+    "DialMixin",
+    "SignalChainRoom",
+    "EpsilonAccumulator",
+    "RoomChain",
 ]
 
 from .tiles import Tile, TileType, Confidence, Verifier, TileStore, CommandTile, VisionTile, ChartTile
@@ -69,3 +74,4 @@ from .simulators import (
     CaptainReviewSimulator,
     FullTripSimulator,
 )
+from .signal_chain import SignalChainRoom, EpsilonAccumulator, RoomChain

@@ -19,6 +19,31 @@ import threading
 import time
 
 
+class DialMixin:
+    """Mixin that gives tile-like objects a position on the hard→soft dial.
+
+    The dial runs 0.0 (fully hard / compiled) → 1.0 (fully soft / model).
+    By default dial_position is derived from confidence:
+        dial_position = 1.0 - confidence
+    Set *dial_override* to pin a tile to a specific position.
+    """
+
+    @property
+    def dial_position(self) -> float:
+        override = getattr(self, "dial_override", None)
+        if override is not None:
+            return float(override)
+        return 1.0 - getattr(self, "confidence", 0.0)
+
+    def matches_dial(self, dial: float) -> bool:
+        """Return True if this tile is active at the given dial position."""
+        return self.dial_position <= dial + 1e-9
+
+    def effective_hardness(self) -> float:
+        """How 'hard' this tile is — inverse of dial_position."""
+        return 1.0 - self.dial_position
+
+
 class TileType(Enum):
     """What kind of knowledge this tile represents."""
     COMMAND = "command"
@@ -57,7 +82,7 @@ class Verifier(Enum):
 
 
 @dataclass
-class Tile:
+class Tile(DialMixin):
     """A single piece of compiled knowledge.
 
     This is the fundamental unit of the LucidDreamer system.
@@ -89,6 +114,7 @@ class Tile:
     negative_of: Optional[str] = None
 
     metadata: dict = field(default_factory=dict)
+    dial_override: Optional[float] = None
 
     @property
     def tile_id(self) -> str:
