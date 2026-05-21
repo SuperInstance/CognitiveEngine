@@ -11,7 +11,10 @@ Usage:
     luciddreamer beta-test
 """
 
+
 from __future__ import annotations
+
+__all__ = ["build_parser", "main"]
 
 import argparse
 import json

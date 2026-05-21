@@ -4,6 +4,9 @@ Registers luciddreamer capabilities with the plato-core MeshRegistry
 when both packages are installed together.
 """
 
+__all__ = ["register"]
+
+
 try:
     from plato_core.mesh import MeshRegistry
     

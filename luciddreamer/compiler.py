@@ -9,6 +9,9 @@ Compile threshold (from flux-lucid dream.rs experimental data):
 - Amnesia cliff: 10% coverage → don't compile with fewer than 3 samples
 """
 
+__all__ = ["CompiledCommand", "RigidFinder"]
+
+
 import re
 from typing import Optional
 from .tiles import Tile, TileType, TileStore, CommandTile

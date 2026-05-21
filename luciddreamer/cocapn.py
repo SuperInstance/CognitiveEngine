@@ -20,11 +20,12 @@ Every learned behavior becomes a tile. Over time, the Cocapn compiles
 common interactions into instant responses.
 """
 
+
 from __future__ import annotations
 
-import math
+__all__ = ["ClickType", "MouseAction", "NavButton", "NavComputer", "ChartInterpreter", "CocapnChatbot"]
+
 import re
-import time
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Optional

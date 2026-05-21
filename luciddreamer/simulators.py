@@ -11,7 +11,10 @@ Quick start:
         print(command)
 """
 
+
 from __future__ import annotations
+
+__all__ = ["AutopilotSimulator", "FishSortSimulator", "ChartSimulator", "CaptainReviewSimulator", "FullTripSimulator"]
 
 import random
 import time

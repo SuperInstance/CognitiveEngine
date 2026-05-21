@@ -5,6 +5,9 @@ Inference = deep water (unknown, still exploring).
 The goal: tile the ocean floor until the model only swims in deep water for novel inputs.
 """
 
+__all__ = ["DepthSounding", "BathymetricMap"]
+
+
 from dataclasses import dataclass, field
 from typing import Optional
 from .tiles import TileStore, Confidence

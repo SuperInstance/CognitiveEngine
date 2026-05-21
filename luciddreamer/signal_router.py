@@ -19,7 +19,10 @@ Usage::
     sr.set_dial(0.2)  # go harder
 """
 
+
 from __future__ import annotations
+
+__all__ = ["SignalRouter"]
 
 import threading
 from typing import Any, Callable, Optional

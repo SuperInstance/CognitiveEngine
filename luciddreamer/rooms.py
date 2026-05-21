@@ -11,7 +11,10 @@ HardRoom  (dial locked at 0.0)
     fooled.
 """
 
+
 from __future__ import annotations
+
+__all__ = ["SoftRoom", "HardRoom"]
 
 from typing import Optional, Callable, Any
 
@@ -60,6 +63,9 @@ class SoftRoom(SignalChainRoom):
     # ------------------------------------------------------------------
     # Lock the dial
     # ------------------------------------------------------------------
+    def __repr__(self) -> str:
+        return f"SoftRoom(name={self.name!r}, tiles={len(self.store)}, threshold={self.compile_threshold})"
+
     def set_dial(self, value: float) -> None:
         """SoftRoom dial is fixed at 1.0 — setting it is a no-op."""
         # Intentionally ignored; dial stays at FIXED_DIAL.
@@ -127,6 +133,9 @@ class HardRoom(SignalChainRoom):
     # ------------------------------------------------------------------
     # Lock the dial
     # ------------------------------------------------------------------
+    def __repr__(self) -> str:
+        return f"HardRoom(name={self.name!r}, tiles={len(self.store)})"
+
     def set_dial(self, value: float) -> None:
         """HardRoom dial is fixed at 0.0 — setting it is a no-op."""
         # Intentionally ignored; dial stays at FIXED_DIAL.

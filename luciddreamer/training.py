@@ -13,12 +13,14 @@ Every training example must work without conversation context.
 The model's weights ARE the context. The tiles ARE the memory.
 """
 
+__all__ = ["TrainingExample", "TrainingDataGenerator", "LoRACheckpoint", "CheckpointDiff", "CheckpointManager", "SystemPromptVersion"]
+
+
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Optional
 import json
-import hashlib
-import time
+# hashlib and time intentionally removed (unused)
 import threading
 
 from .tiles import Tile, TileStore, TileType, Verifier, Confidence

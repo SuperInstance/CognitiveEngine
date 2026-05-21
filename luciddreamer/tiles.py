@@ -9,6 +9,9 @@ conversation context assumed. The tile's confidence and compiled regex
 ARE the context.
 """
 
+__all__ = ["DialMixin", "TileType", "Confidence", "Verifier", "Tile", "CommandTile", "VisionTile", "ChartTile", "TileStore"]
+
+
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Optional

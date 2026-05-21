@@ -1,6 +1,6 @@
 # LucidDreamer — Maritime Intelligence System
 
-[![PyPI version](https://img.shields.io/pypi/v/luciddreamer.svg)](https://pypi.org/project/luciddreamer/) [![Python](https://img.shields.io/pypi/pyversions/luciddreamer.svg)](https://pypi.org/project/luciddreamer/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Tests](https://img.shields.io/badge/tests-36%20passing-brightgreen.svg)](./tests)
+[![PyPI version](https://img.shields.io/pypi/v/luciddreamer.svg)](https://pypi.org/project/luciddreamer/) [![Python](https://img.shields.io/pypi/pyversions/luciddreamer.svg)](https://pypi.org/project/luciddreamer/) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Tests](https://img.shields.io/badge/tests-143%20passing-brightgreen.svg)](./tests)
 
 *A thinking boat that learns its captain, tiles its knowledge, and compiles its intelligence.*
 

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 """Chart intelligence — reading navigation displays and answering depth queries.
 
 The chart module understands:
@@ -14,7 +16,7 @@ Key queries:
 - "What do the blue contours mean?"
 """
 
-from __future__ import annotations
+__all__ = ["ChartData", "predict_position", "min_depth_along_route", "answer_depth_query"]
 
 import math
 import re
