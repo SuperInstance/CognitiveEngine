@@ -57,7 +57,7 @@ __all__ = [
     "HardRoom",
 ]
 
-from .tiles import Tile, TileType, Confidence, Verifier, TileStore, CommandTile, VisionTile, ChartTile
+from .tiles import Tile, TileType, Confidence, Verifier, TileStore, CommandTile, VisionTile, ChartTile, DialMixin
 from .compiler import RigidFinder, CompiledCommand
 from .bathymetry import BathymetricMap, DepthSounding
 from .router import Router, RouteDecision

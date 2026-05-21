@@ -109,6 +109,14 @@ class Router:
         )
         return self.store.add(tile)
 
+    def log_pending(self, text: str, result, confidence: float = 0.0) -> None:
+        """Log a fallback interaction as a potential future tile."""
+        self._pending.append({
+            "input": text,
+            "output": result,
+            "confidence": confidence,
+        })
+
     @property
     def pending_count(self) -> int:
         return len(self._pending)

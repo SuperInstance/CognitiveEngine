@@ -185,11 +185,7 @@ class SignalChainRoom:
         if self.dial >= self.fallback_threshold and self.fallback_fn is not None:
             result = self.fallback_fn(text)
             # Mirror Router's pending-logging behaviour
-            self.router._pending.append({
-                "input": text,
-                "output": result,
-                "confidence": 0.0,
-            })
+            self.router.log_pending(text, result)
             return (RouteDecision.FALLBACK, result)
 
         return (RouteDecision.FALLBACK, {
