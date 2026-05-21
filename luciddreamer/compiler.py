@@ -110,10 +110,18 @@ class RigidFinder:
         return None
 
     def _auto_pattern(self, text: str) -> str:
-        pattern = re.escape(text)
-        pattern = re.sub(r'\\d+', r'(?P<n>\\d+)', pattern)
-        pattern = re.sub(r'e\\s', r'es?', pattern)
-        return f"^{pattern}$"
+        """Generate a regex pattern from an input example.
+
+        Replaces digit sequences with named capture groups.
+        e.g. "turn port 10 degrees" → "^turn port (?P<n>\\d+) degrees$"
+        """
+        # Replace digit sequences with capture groups before escaping
+        result = re.sub(r'\d+', r'PLACEHOLDER_DIGITS', text)
+        # Escape regex special chars
+        result = re.escape(result)
+        # Put capture groups back (re.escape doesn't touch our placeholder)
+        result = result.replace('PLACEHOLDER_DIGITS', r'(?P<n>\d+)')
+        return f"^{result}$"
 
     @property
     def compiled_count(self) -> int:

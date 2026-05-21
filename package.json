@@ -1,0 +1,31 @@
+{
+  "name": "@superinstance/luciddreamer",
+  "version": "0.1.0",
+  "description": "Maritime intelligence system — distills cloud AI into compiled edge tiles",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "luciddreamer/",
+    "docs/",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SuperInstance/luciddreamer.git"
+  },
+  "keywords": [
+    "maritime",
+    "intelligence",
+    "edge",
+    "tiles",
+    "ai"
+  ],
+  "author": "SuperInstance",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SuperInstance/luciddreamer/issues"
+  },
+  "homepage": "https://github.com/SuperInstance/luciddreamer#readme"
+}
