@@ -411,6 +411,57 @@ For boats doing heavy fish sorting with vision:
 
 ---
 
+## The Promotion Ladder
+
+The system doesn't just learn — it promotes. As knowledge compiles, the inference engines don't retire. They move up in abstraction, like a military career:
+
+```
+  Rank          What runs             Mental budget spent on
+  ──────────    ──────────────        ──────────────────────
+  Recruit       Cloud LLM everything  Nothing left over
+  Corporal      Local model 80%       Recognizing patterns
+                Cloud for novel       Flagging unknowns
+  Sergeant      Tiles handle routine  Connecting patterns
+                Model reviews         across domains
+  Lieutenant    Hard code routine     Strategy — what rooms
+                Tiles review          to explore next
+  Captain       System runs itself    Values — should we
+                Reviews with human    even do this?
+```
+
+At every level, freed-up capacity goes to the next meta layer:
+
+- **Recruit → Corporal**: Cloud model generates initial tiles. Local model takes over the easy ones. Cloud still handles novel inputs.
+- **Corporal → Sergeant**: Local model now selects tiles instead of generating from scratch. Same tokens spent reviewing transcripts, not generating "Roger, turning port 10". The model sees the transcript and thinks: *"We keep sorting Chinook wrong near that shelf break — the depth contour data might help."*
+- **Sergeant → Lieutenant**: Tiles are compiled to hard code. The local model's job shifts to cross-domain pattern recognition — connecting fish logs with bathymetry with buyer reconciliation data.
+- **Lieutenant → Captain**: The system proposes new abstractions. *"We have 300 compiled tiles for heading changes. I notice 40 of them cluster around tide changes. Should we create a TIDE_AWARE heading tile?"* The human makes the call.
+
+### The Model Never Retires
+
+This is the key insight. The local model that used to spend 500 tokens generating a response now spends those same 500 tokens on staff work:
+
+- Reviewing the last 20 interactions for anomalies
+- Cross-referencing bathymetry with fish sorting logs
+- Pre-generating tomorrow's likely commands from heading + tide tables
+- Detecting drift: *"We've corrected the same fish 5 times this trip — is the vision model degrading?"*
+
+The 5:1 learning asymmetry (correct +0.02, correction -0.10) is exactly how you want a soldier to learn — slow to trust, fast to adapt when proven wrong.
+
+### Domain-Independent
+
+The promotion ladder isn't maritime-specific:
+
+| Domain | Recruit | Sergeant | Captain |
+|--------|---------|----------|---------|
+| Maritime | Cloud handles every command | Compiled tiles steer the boat | System proposes tide-aware routing |
+| Retail | Cloud IDs every shelf item | Compiled tiles track SKUs | System notices seasonal shrinkage patterns |
+| Website | Cloud answers every visitor | Compiled tiles handle FAQ | System proposes new conversion paths |
+| Healthcare | Cloud triages every symptom | Compiled tiles handle common presentations | System flags population-level trends |
+
+Every domain has the same three anchors: **ground truth source**, **tile lifecycle**, **competition between compiled and fresh inference**.
+
+---
+
 ## Next Steps
 
 - [GETTING-STARTED.md](GETTING-STARTED.md) — Hands-on walkthrough
