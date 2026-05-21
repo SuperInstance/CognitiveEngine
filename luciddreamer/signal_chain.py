@@ -26,7 +26,7 @@ from typing import Optional, Callable, Any
 import re
 import time
 
-from .tiles import Tile, TileStore, TileType, DialMixin
+from .tiles import Tile, TileStore, TileType
 from .router import Router, RouteDecision
 from .compiler import RigidFinder
 
@@ -220,7 +220,8 @@ class SignalChainRoom:
     def add_child(self, room: SignalChainRoom) -> SignalChainRoom:
         """Wire *room* in as a child of this room."""
         room.parent = self
-        self.children.append(room)
+        if room not in self.children:
+            self.children.append(room)
         return room
 
     # ------------------------------------------------------------------

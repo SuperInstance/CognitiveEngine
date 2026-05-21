@@ -52,6 +52,9 @@ __all__ = [
     "SignalChainRoom",
     "EpsilonAccumulator",
     "RoomChain",
+    # Rooms
+    "SoftRoom",
+    "HardRoom",
 ]
 
 from .tiles import Tile, TileType, Confidence, Verifier, TileStore, CommandTile, VisionTile, ChartTile
@@ -75,3 +78,4 @@ from .simulators import (
     FullTripSimulator,
 )
 from .signal_chain import SignalChainRoom, EpsilonAccumulator, RoomChain
+from .rooms import SoftRoom, HardRoom
