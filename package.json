@@ -26,7 +26,6 @@
     "migrate": "node dist/migrate.js"
   },
   "dependencies": {
-    "@superinstance/knowledge-tensor": "workspace:*",
     "express": "^5.2.1",
     "ws": "^8.18.0",
     "pg": "^8.13.1",
