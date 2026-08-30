@@ -7,6 +7,10 @@
 
 Cognitive intelligence system for advanced abstraction, pattern recognition, and insight generation.
 
+<p align="center">
+  <img src="assets/images/cognitive-engine-hero.jpg" width="680" alt="A brass orrery of nested glass rings in a dark engine room — raw dark water rising through amber rings into golden insight">
+</p>
+
 ## Overview
 
 Cognitive Engine is a backend AI system that processes information through multiple abstraction layers to discover patterns, generate insights, and create novel connections. It's the "cognitive engine" of the SuperInstance ecosystem.
@@ -23,6 +27,21 @@ Cognitive Engine is a backend AI system that processes information through multi
 - **Streaming API** - Real-time cognitive processing
 
 ## Architecture
+
+```mermaid
+flowchart TD
+    Core[Cognitive Core]
+    Core --> L1[Level 1 · Raw Data]
+    L1 --> L2[Level 2 · Patterns]
+    L2 --> L3[Level 3 · Concepts]
+    L3 --> L4[Level 4 · Contextual Meanings]
+    L4 --> L5[Level 5 · Abstract Principles]
+    L5 --> Dream[Dream Mode · Generative Exploration]
+    Dream -.novel connections.-> Core
+    Core --> Memory[(MemorySystem)]
+```
+
+*Five rings of abstraction, from raw seawater to golden principle — the dream mode feeds what it finds back to the core.*
 
 ```
                     ┌─────────────────────────┐
